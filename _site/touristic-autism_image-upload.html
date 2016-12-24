@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="image-upload-and-thumbnails">Image Upload and Thumbnails</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em>
+The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<p>We need to install a piece of software to let us upload files in Rails.</p>
+
+<p>Open <code class="highlighter-rouge">Gemfile</code> in the project directory using your text editor and add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'carrierwave'</span></code></pre></figure>
+
+<p>In the terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle</code></pre></figure>
+
+<p>Now we can generate the code for handling uploads. In the terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails generate uploader Picture</code></pre></figure>
+
+<p>At this point you need to <strong>restart the Rails server process</strong> in the terminal.</p>
+
+<p>Hit <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to quit the server. Once it has stopped, you can press the up arrow to get to the last command entered, then hit enter to start the server again.</p>
+
+<p>This is needed for the app to load the added library.</p>
+
+<p>Open <code class="highlighter-rouge">app/models/place.rb</code> and add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">mount_uploader</span> <span class="ss">:picture</span><span class="p">,</span> <span class="no">PictureUploader</span></code></pre></figure>
+
+<p>Open <code class="highlighter-rouge">app/views/places/_form.html.erb</code> and change</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">file_field</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Sometimes, you might get an <em>TypeError: can’t cast ActionDispatch::Http::UploadedFile to string</em>.</p>
+
+<p>If this happens, in file <code class="highlighter-rouge">app/views/places/_form.html.erb</code> change the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@place</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@place</span><span class="p">,</span> <span class="ss">:html</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:multipart</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Now if you run your server, and try adding a new place with a picture, you’ll notice that the picture doesn’t look nice because it only shows a path to the file. Let’s fix that.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/places/show.html.erb</code> and change</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span><span class="p">(</span><span class="vi">@place</span><span class="p">.</span><span class="nf">picture_url</span><span class="p">,</span> <span class="ss">:width</span> <span class="o">=&gt;</span> <span class="mi">600</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">picture</span><span class="p">.</span><span class="nf">present?</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Now refresh your browser to see what changed.</p>
+
+<p><strong>Coach:</strong> Talk a little about HTML.</p>
+
+<p><strong>Coach</strong>: Explain what specifying the image width in HTML at the end of Step
+4 does and how it differs from resizing images on the server.</p>
+
+<h2 id="installing-imagemagick">Installing ImageMagick</h2>
+
+<ul>
+  <li>OS X: run <code class="highlighter-rouge">brew install imagemagick</code>. If you don’t have the brew command, you can <a href="http://mxcl.github.io/homebrew/">install Homebrew here</a>.</li>
+  <li>Windows: download and run the <a href="http://www.imagemagick.org/script/binary-releases.php?ImageMagick=vkv0r0at8sjl5qo91788rtuvs3#windows">ImageMagick installer</a> (use the first
+<em>download</em> link). Reopen your Rails Command Shell afterwards.</li>
+  <li>
+    <p>Linux: On Ubuntu and Debian, run <code class="highlighter-rouge">sudo apt-get install imagemagick</code>. Use the
+appropriate package manager instead of <code class="highlighter-rouge">apt-get</code> for other distributions.</p>
+
+  </li>
+</ul>
+
+<p><strong>Coach</strong>: What is ImageMagick and how is it different from libraries/gems we
+used before?</p>
+
+<p>Open <code class="highlighter-rouge">Gemfile</code> in the project and add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'mini_magick'</span><span class="p">,</span> <span class="s1">'3.5.0'</span></code></pre></figure>
+
+<p>In the Terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle</code></pre></figure>
+
+<h2 id="telling-our-app-to-create-thumbnails-when-an-image-is-uploaded">Telling our app to create thumbnails when an image is uploaded</h2>
+
+<p>Open <code class="highlighter-rouge">app/uploaders/picture_uploader.rb</code> and find the line that looks like
+this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="c1"># include CarrierWave::MiniMagick</span></code></pre></figure>
+
+<p>Remove the <code class="highlighter-rouge">#</code> sign.</p>
+
+<p><strong>Coach</strong>: Explain the concept of comments in code.</p>
+
+<p>Below the line you just changed, add:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">version</span> <span class="ss">:thumb</span> <span class="k">do</span>
+  <span class="n">process</span> <span class="ss">:resize_to_fill</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The images uploaded from now on should be resized, but the ones we already
+have weren’t affected. So edit one of the existing places and re-add a picture.</p>
+
+<h2 id="displaying-the-thumbnails">Displaying the thumbnails</h2>
+
+<p>To see if the uploaded picture was resized open
+<code class="highlighter-rouge">app/views/places/index.html.erb</code>. Change the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">picture</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="n">place</span><span class="p">.</span><span class="nf">picture_url</span><span class="p">(</span><span class="ss">:thumb</span><span class="p">)</span> <span class="k">if</span> <span class="n">place</span><span class="p">.</span><span class="nf">picture?</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span></code></pre></figure>
+
+<p>Take a look at the list of ideas in the browser to see if the thumbnail is
+there.</p>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

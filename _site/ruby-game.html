@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Write a little game in Ruby! - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="write-a-little-game-in-ruby">Write a little game in Ruby!</h1>
+
+<p><em>Created by Patrick Huesler, <a href="https://twitter.com/phuesler">@phuesler</a> &amp; Floor Drees, <a href="https://twitter.com/floordrees">@floordrees</a> for <a href="http://railsgirls.com/thehague">Rails Girls The Hague</a></em></p>
+
+<p><a href="http://www.libgosu.org/">gosu</a> is a 2D game development library. Gosu features easy to use and game-friendly interfaces to 2D graphics and text (accelerated by 3D hardware), sound samples and music as well as keyboard, mouse and gamepad/joystick input. Also includes demos for integration with RMagick, Chipmunk and OpenGL.</p>
+
+<p>The actual source code, wiki, issue tracker etc. are all <a href="http://github.com/jlnr/gosu/">hosted on GitHub</a>. The best entry point into Gosu’s documentation is the <a href="http://github.com/jlnr/gosu/wiki">wiki home page</a>.
+Install:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">gem install gosu</code></pre></figure>
+
+<p>or add <code class="highlighter-rouge">gem "gosu", "~&gt; 0.7.48"</code> to your Gemfile and run <code class="highlighter-rouge">bundle</code>.
+Play around with the example games:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd</span> <span class="nv">$GEM_HOME</span>/gems/gosu-0.7.48/examples</code></pre></figure>
+
+<p>and then: <code class="highlighter-rouge">ruby CptnRuby.rb</code></p>
+
+<p>or: <code class="highlighter-rouge">ruby RMagickIntegration.rb</code></p>
+
+<p>or: <code class="highlighter-rouge">ruby Tutorial.rb</code></p>
+
+<h3 id="enough-with-those-examples-already">Enough with those examples already!</h3>
+
+<p>Copy the repository by opening (a new tab in your) terminal. If you were working on the Rails Girls app in the mean time, make sure you’re in your home directory by running <code class="highlighter-rouge">cd</code>.</p>
+
+<p>Now run</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git clone https://github.com/FloorD/gosu_tutorial_RG_TH.git</code></pre></figure>
+
+<p>aaand change into the proper directory using</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"> 
+<span class="nb">cd </span>gosu_tutorial_RG_TH/jumpingem</code></pre></figure>
+
+<h3 id="run">Run!</h3>
+
+<p>To play our little game, open it using the terminal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"> 
+ruby game.rb</code></pre></figure>
+
+<h3 id="so-how-does-this-work">So how does this work?</h3>
+
+<p>Let’s inspect some code, shall we? Open <code class="highlighter-rouge">game.rb</code> in your texteditor. See the</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="o">!</span><span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">env</span> <span class="n">ruby</span> <span class="o">-</span><span class="n">w</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span> 
+<span class="nb">require</span> <span class="s1">'gosu'</span>
+<span class="kp">include</span> <span class="no">Gosu</span></code></pre></figure>
+
+<p>… right at the top of your file? Here we make sure we ‘call’ the necessary gem, so we can move on to our <code class="highlighter-rouge">class</code> (or multiple classes).
+So we have our</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="k">class</span> <span class="nc">Game</span> <span class="o">&lt;</span> <span class="no">Window</span> 
+<span class="k">end</span></code></pre></figure>
+
+<p>… thing going on. The <code class="highlighter-rouge">def</code>’s you see within this Game class, are  methods. Here we <strong>def</strong>ine which instructions the program should follow. Just take a look at the following snippet:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="k">def</span> <span class="nf">draw</span>
+  <span class="n">draw_quad</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="no">Color</span><span class="o">::</span><span class="no">WHITE</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="no">Color</span><span class="o">::</span><span class="no">WHITE</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="no">Color</span><span class="o">::</span><span class="no">WHITE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="no">Color</span><span class="o">::</span><span class="no">WHITE</span>
+    <span class="k">if</span> <span class="vi">@dir</span> <span class="o">==</span> <span class="ss">:left</span> <span class="k">then</span>
+      <span class="n">offs_x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span>
+      <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+    <span class="k">else</span>
+      <span class="n">offs_x</span> <span class="o">=</span> <span class="mi">25</span>
+      <span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="k">end</span>
+  <span class="vi">@cur_image</span><span class="p">.</span><span class="nf">draw</span><span class="p">(</span><span class="vi">@x</span> <span class="o">+</span> <span class="n">offs_x</span><span class="p">,</span> <span class="vi">@y</span> <span class="o">-</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Want to play around a bit? Copy the contents of <code class="highlighter-rouge">game.rb</code> in a new <code class="highlighter-rouge">.rb</code> file. Save it and name it as you’d like. Now try and change some stuff in the game and run it in your terminal to see the changes.</p>
+
+<p>Think you have more graphic skills than Patrick (you probably do)? Then you can try and create a new <code class="highlighter-rouge">sprites.png</code>! Don’t forget to call it here:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="k">def</span> <span class="nf">initialize</span>
+    <span class="k">super</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="kp">false</span><span class="p">)</span>
+    <span class="nb">self</span><span class="p">.</span><span class="nf">caption</span> <span class="o">=</span> <span class="s2">"Jump 'n Run"</span>
+    <span class="vi">@standing</span><span class="p">,</span> <span class="vi">@walk1</span><span class="p">,</span> <span class="vi">@walk2</span><span class="p">,</span> <span class="vi">@jump</span> <span class="o">=</span> <span class="o">*</span><span class="no">Image</span><span class="p">.</span><span class="nf">load_tiles</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="s2">"sprites.png"</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="kp">false</span><span class="p">)</span>
+    <span class="vi">@x</span><span class="p">,</span> <span class="vi">@y</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="vi">@vy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="vi">@dir</span> <span class="o">=</span> <span class="ss">:left</span>
+    <span class="vi">@cur_image</span> <span class="o">=</span> <span class="vi">@standing</span>
+  <span class="k">end</span></code></pre></figure>
+
+<p>And see the <code class="highlighter-rouge">Game.new.show</code>? That creates a new instance. It has no memory, so when you get stuck in the game, you can just start a new game. Have fun!</p>
+
+<h4 id="credits">Credits</h4>
+
+<p>The assets used in vim adventures, you can find them <a href="http://www.lostgarden.com/2007/05/dancs-miraculously-flexible-game.html">here</a></p>
+
+<p>The sounds usedm you’ll find over at <a href="http://opengameart.org/content/matts-creative-commons-music">Matthew Klingensmith (www.matthewklingensmith.com)</a></p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

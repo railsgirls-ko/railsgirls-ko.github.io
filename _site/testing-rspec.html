@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>You better check you app, before you wreck your app - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="test-your-app-with-rspec">Test your app with RSpec</h1>
+
+<p><em>Created by Clemens Helm, <a href="https://twitter.com/clemenshelm">@clemenshelm</a> and Floor Drees, <a href="https://twitter.com/floordrees">@floordrees</a></em></p>
+
+<p>RSpec is a Ruby testing framework, that describes our application’s behavior in a syntax that doesn’t look much like Ruby. It outputs test results in your terminal, so you’ll test your reading skills as well (pun intended).</p>
+
+<p><strong>COACH</strong>: Talk about testing and Behavior-Driven Development.</p>
+
+<h3 id="install-rspec">Install rspec</h3>
+
+<p>For starters, let’s install RSpec and all of its dependencies.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">gem install rspec</code></pre></figure>
+
+<p>Then we call</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rspec --init</code></pre></figure>
+
+<p>in our project directory. This creates <code class="highlighter-rouge">spec_helper.rb</code> in the spec folder, and <code class="highlighter-rouge">.rspec</code>.</p>
+
+<p>Rubyists often use the words ‘test’ and ‘specification’ interchangeably, that’s why you’ll store your tests in the ‘specs’ folder. Save your test as <code class="highlighter-rouge">idea_spec.rb</code> (<code class="highlighter-rouge">&lt;name_of_spec&gt;_spec.rb</code>).</p>
+
+<p>Inside that new file, write:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">"spec_helper"</span>
+<span class="nb">require</span> <span class="s2">"idea"</span></code></pre></figure>
+
+<p>Next, let’s describe one of our specifications</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"has a title"</span> <span class="c1"># your examples (tests) go here</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>In your terminal run</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rspec spec/lib/idea_spec.rb</code></pre></figure>
+
+<p>which will output that your test is pending as it’s not yet implemented.</p>
+
+<p><strong>COACH</strong>: Talk about googling terminal output.</p>
+
+<p>Let’s do something about that!</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"has a title"</span> <span class="k">do</span> <span class="c1"># yep, you can totally use 'it'</span>
+    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="p">.</span><span class="nf">new</span> <span class="c1"># creating a new idea 'instance'</span>
+    <span class="n">idea</span><span class="p">.</span><span class="nf">title</span><span class="p">.</span><span class="nf">should</span> <span class="n">be_true</span> <span class="c1"># this is our expectation</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>should give you a more satisfying output.</p>
+
+<p>####Refactoring</p>
+
+<p>You could actually also write:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_true</span> <span class="p">}</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>which looks a lot nicer, but there’s a lot of magic involved. For now it’s probably jyst nice to know that we can ‘refactor’ those big chuncks of code into smaller bits with a little more experience.</p>
+
+<p><strong>COACH</strong>: Talk a bit about refactoring.</p>
+
+<h4 id="marking-to-dos-with-tests">Marking to-do’s with tests</h4>
+
+<p>Yeah! To-do lists. Awesome. A nifty RSpec feature is the functionality to mark certain tests as pending.</p>
+
+<p>Leaving out the <code class="highlighter-rouge">do</code> and the <code class="highlighter-rouge">end</code> in the example body, like so</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"has a title"</span></code></pre></figure>
+
+<p>will mark a test as pending. For bigger applications, where you want to tackle one test at a time, you can also add an <code class="highlighter-rouge">x</code> in front of an example, making it read</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>  
+  <span class="n">xit</span> <span class="s2">"has a title"</span> <span class="k">do</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>or use the word <code class="highlighter-rouge">pending</code> in your example.</p>
+
+<h3 id="behavior-driven-development">Behavior-Driven Development</h3>
+
+<p>Normally we would go about BDD testing in a slightly different way. Thinking about the application we want to build, we’ll write down our expectations and then start building step by step, with the specifications in mind.</p>
+
+<p>We’d first write</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"has a title"</span>
+    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="p">.</span><span class="nf">new</span> 
+    <span class="n">idea</span><span class="p">.</span><span class="nf">title</span><span class="p">.</span><span class="nf">should</span> <span class="n">be_true</span> 
+    <span class="c1"># or, alternatively: idea.title.should == true</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>and only then create a file named <code class="highlighter-rouge">idea.rb</code> introducing the idea class</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Idea</span>
+<span class="kp">attr_accessor</span>  <span class="ss">:title</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>as running <code class="highlighter-rouge">rspec spec/lib/idea_spec.rb</code> in your terminal before you’ve implemented that class will throw you an error. Luckely, errors are nothing to be afraid of. RSpec errors actually help you write (the necessary) code!</p>
+
+<p>Try and write tests for the follow up guides to check if you’re implementing ALL the right things.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">Attendee</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"tests everything"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Just saying.</p>
+
+<p>Happy testing!</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Guide to the Guide - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="your-guide-to-the-rails-girls-guide">Your guide to the Rails Girls Guide!</h1>
+
+<p><em>Created by H Salmon to accompany the <a href="/app">app guide</a>.</em></p>
+
+<p>This guide is an accompaniment to the <a href="/app">Rails Girls Guide</a> you will be using to build your first Rails application. Its purpose is to provide background information about the structure of a Rails application, Rails terminology and commands, so you can understand what is happening when you are implementing the code in the Rails Girls Guide. We hope that this guide will provide you with a way to retain what you learn over the course of this workshop, and to maintain your interest in Rails development. Welcome!</p>
+
+<h3 id="creating-the-application1createtheapplication"><a href="#1_create_the_application"><strong>1.</strong> Creating the application</a></h3>
+<p>Commands you need to know</p>
+
+<h3 id="creating-idea-scaffold2createideascaffold"><a href="#2_create_idea_scaffold"><strong>2.</strong> Creating Idea scaffold</a></h3>
+<p>Scaffolding, models, migrations</p>
+
+<h3 id="designing3design"><a href="#3_design"><strong>3.</strong> Designing</a></h3>
+<p>The design layers ( HTML, CSS, ERB)
+MVC Architecture</p>
+
+<h3 id="adding-picture-uploads4addpictureuploads"><a href="#4_add_picture_uploads"><strong>4.</strong> Adding picture uploads</a></h3>
+<p>Libraries, gems and open-source</p>
+
+<h3 id="finetuning-the-routes5finetunetheroutes"><a href="#5_finetune_the_routes"><strong>5.</strong> Finetuning the routes</a></h3>
+<p>routes, HTTP Methods: GET, POST, PUT and DELETE</p>
+
+<h2 id="a-id1createtheapplication1-create-the-applicationa"><a id="1_create_the_application"><em>1.</em> Create the application</a></h2>
+
+<p><code class="highlighter-rouge">mkdir projects</code> - makes a <em>directory</em> (folder) called “projects” in the folder you are currently in, most likely your home folder.
+<code class="highlighter-rouge">mkdir</code> = <strong>m</strong>a<strong>k</strong>e <strong>dir</strong>ectory.</p>
+
+<p><code class="highlighter-rouge">cd projects</code> - navigates to the “projects” folder you just created. <code class="highlighter-rouge">cd</code> = <strong>c</strong>hange <strong>d</strong>irectory.</p>
+
+<p><code class="highlighter-rouge">rails new railsgirls</code> - creates a new Ruby on Rails application called <strong>railsgirls</strong> containing various auto-generated folders, in your <em>working directory</em> (the folder you are working in at the moment).</p>
+
+<p><code class="highlighter-rouge">cd railsgirls</code> - navigates to the “railsgirls” folder.</p>
+
+<p><code class="highlighter-rouge">ruby script\rails server</code> - starts a local web server on your computer. This web server is accessed through the web address <a href="http://localhost:3000">http://localhost:3000</a>.</p>
+
+<p>“Localhost” refers specifically to your computer (considered the “local host”), from which a server is being launched. Localhost provides a way for developers to see their application in a browser and test the functionality while it is still in development.</p>
+
+<h2 id="a-id2createideascaffold2-create-idea-scaffolda"><a id="2_create_idea_scaffold"><em>2.</em> Create Idea scaffold</a></h2>
+
+<h3 id="what-is-rails-scaffolding">What is Rails scaffolding?</h3>
+
+<p>Every web application consists of many different concepts or resources (such as “users”, “ideas”, “posts”, “comments”, etc.).
+Rails scaffolding is a command (<code class="highlighter-rouge">rails generate scaffold</code>) for introducing a new resource into your application. It generates all of the code files necessary for representing and interacting with this resource.</p>
+
+<h3 id="what-is-a-model">What is a model?</h3>
+
+<p>In Rails, a model represents a definition of a resource in your application, and how it should interact with other parts of the application. Depending on the nature of the website, these resources could be users, posts, groups etc. When a model is generated, a corresponding <em>database table</em> is created. This database table contains information that represents specified attributes of the model, e.g. for a User model, there might be a ‘name’ column and an ‘email’ column, and there will be rows for each subsequent user created. In the application you are creating, these resources are ideas and the model is ‘Idea’.</p>
+
+<figure class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">rails</span> <span class="n">generate</span> <span class="n">scaffold</span> <span class="n">idea</span> <span class="nb">name</span><span class="ss">:string</span> <span class="n">description</span><span class="ss">:text</span> <span class="n">picture</span><span class="ss">:string</span></code></pre></figure>
+
+<p>In order to create our idea model, we use the <code class="highlighter-rouge">scaffold</code> command which includes an argument with the singular version of the model name (<code class="highlighter-rouge">idea</code>), and an argument with parameters (specifications) for the model’s attributes. This means that the <code class="highlighter-rouge">idea</code> model corresponds to a table in the database with columns for the attributes specified in the command: <code class="highlighter-rouge">name</code>, <code class="highlighter-rouge">description</code> and <code class="highlighter-rouge">picture</code>. The <code class="highlighter-rouge">scaffold</code> command also auto-generates an <code class="highlighter-rouge">id</code> attribute, referred to as the <code class="highlighter-rouge">primary key</code>, which is used to establish relationships between database tables.</p>
+
+<p><code class="highlighter-rouge">rails generate scaffold</code> - this calls the scaffold command.</p>
+
+<p><code class="highlighter-rouge">idea</code> - this tells the scaffold command what we want to call our model.</p>
+
+<p><code class="highlighter-rouge">name:string description:text picture:string</code> - provides a list of attributes we want our model (and the database table that goes with it) to have. The <code class="highlighter-rouge">string</code> and <code class="highlighter-rouge">text</code> parts of the argument determine the nature of each attribute, i.e. each description needs to be ‘text’, and not, for example, an ‘integer’ (or any other type of information).</p>
+
+<h3 id="the-ideas-table">The ideas table</h3>
+
+<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th>id</th>
+			<th>name</th>
+			<th>description</th>
+			<th>picture</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>“Money-spinner”</td>
+			<td>“Open a moveable shop!”</td>
+			<td>“GreatIdea.jpg”</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>“Champagne For Breakfast!”</td>
+			<td>“We should do this every Friday!”</td>
+			<td>“Champagne.jpg”</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>...</td>
+			<td>...</td>
+			<td>...</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="naming-conventions">Naming conventions</h3>
+
+<h4 id="active-record">Active Record</h4>
+<p>In Rails, the default system for communicating with an application’s database is called <em>Active Record</em>, which provides various methods for creating, saving, and finding data. To retrieve information from the database, <em>Active Record</em> establishes relationships between different parts of the application using naming conventions:</p>
+
+<ul>
+  <li>Table names have all lowercase letters and underscores between words, e.g. “ideas”, “invoice_items”</li>
+  <li>The model is named using the convention of unbroken MixedCase and is always the singular of the table name, e.g. if the table name is “invoice_items”, the model name would be “InvoiceItem”. So, in this case our table name is “ideas” and our model is “Idea”.</li>
+</ul>
+
+<h4 id="model-attributes-and-types">Model attributes and types</h4>
+
+<p>As we’ve already discussed, a model can have attributes (properties) represented by columns in the corresponding database table. To be supported by the Active Record system, these attributes must conform to a list of appropriate types:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">:binary</code> - stores data such as images, audio files or movies</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:boolean</code> - stores true or false values (such as whether a particular user is an administrator of an application or not)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:date</code> - stores only a date (year, month, day)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:datetime</code> - stores both a date and a time</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:decimal</code> - stores decimal numbers with precision that varies according to your specifications</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:float</code> - stores decimal points with fixed precision i.e. you can’t specify the precision (<code class="highlighter-rouge">:decimal</code> is better for mathematical operations in which precision is required, but <code class="highlighter-rouge">:float</code> is processed faster and is better in situations where speed is required and accuracy is secondary)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:integer</code> - stores whole numbers</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:primary_key</code> - the primary key of a table is assumed to be the id</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:string</code> - stores 255 characters of text information, i.e. is used for short text fields (names, emails etc)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:text</code> - stores text information with no character limit (used for comments, blog posts etc)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:time</code> - stores only a time</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">:timestamp</code> - stores both a time and date. <code class="highlighter-rouge">:timestamp</code> is different from <code class="highlighter-rouge">:datetime</code> and serves a different purpose, but there’s no need to go into that here</p>
+  </li>
+</ul>
+
+<h3 id="what-are-migrations-and-why-do-you-need-them">What are migrations and why do you need them?</h3>
+
+<p>Migrations change the state of the database. When you run the <code class="highlighter-rouge">scaffold</code> command, a migration file containing instructions for the database table relevant to your command is added to the <code class="highlighter-rouge">db/migrate</code> folder of your application. For example, when you ran the <code class="highlighter-rouge">rails generate scaffold</code> command, a migration containing instructions for our ideas table was created. There are other commands that create migrations such as the <code class="highlighter-rouge">rails generate model</code> command and the <code class="highlighter-rouge">rails generate migration</code> command.</p>
+
+<p>The <code class="highlighter-rouge">rake db:migrate</code> command updates the database according to the specifications in the migration file. This command, known as “migrating up”, ensures that your idea model is added to the database. Migrations can also be undone (“migrating down”) using the command <code class="highlighter-rouge">rake db:rollback</code>.</p>
+
+<h2 id="a-id3design3-designa"><a id="3_design"><em>3.</em> Design</a></h2>
+<p>In a Ruby on Rails application, the user interface (what someone visiting the website will see), is often written in HTML with Embedded Ruby (ERB) code. This code is contained in a specific directory called ‘views’, located in the <code class="highlighter-rouge">app</code> folder of your Rails application directory.</p>
+
+<h3 id="html">HTML</h3>
+<p>HTML, which stands for HyperText Markup Language, is the primary language for creating web pages and other information that can be displayed in a web browser. HTML is written using tags, angle brackets which tend to come in pairs (a “start tag” and an “end tag”), enclosing text-based content. In paired tags, the end tag also has a slash after the opening angle bracket, to distinguish it from the start tag. A paragraph (represented in HTML by the letter ‘p’) would use a start tag like this: <code class="highlighter-rouge">&lt;p&gt;</code> and an end tag like this: <code class="highlighter-rouge">&lt;/p&gt;</code>, to enclose the text intended for display. Unpaired tags that are opened but don’t need to be closed (e.g. <code class="highlighter-rouge">&lt;br&gt;</code>, which defines a single line break) are known as “empty elements”. The web browser uses HTML tags to interpret how the contents will be displayed.</p>
+
+<h3 id="erb-embedded-ruby">ERB: Embedded Ruby</h3>
+<p>ERB is a system supplied by Ruby that allows you to insert pure Ruby code into files written in other languages, such as Javascript or HTML. The Ruby code is contained within specific angle brackets (<code class="highlighter-rouge">&lt;%</code> and <code class="highlighter-rouge">%&gt;</code>) which instruct the system to execute the contents. If an <code class="highlighter-rouge">=</code> sign accompanies the angle brackets, (<code class="highlighter-rouge">&lt;%=</code> and %<code class="highlighter-rouge">&gt;</code>) then the contents are executed and rendered on the page.</p>
+
+<p>For example, if you had 25 active ideas in your application, the code:
+<code class="highlighter-rouge">There are currently &lt;%= Idea.count %&gt; active ideas</code>
+would render as:
+&gt; There are currently 25 active ideas</p>
+
+<h3 id="mvc-architecture">MVC Architecture</h3>
+<p>In a standard Rails application (like you one you have generated), the <code class="highlighter-rouge">app/</code> folder of your application starts out with three folders (or directories): ‘models’ (which we have already discussed), ‘controllers’ and ‘views’. The relationship between these directories is the foundation (known as MVC Architecture) of the application, and of Rails development.</p>
+
+<p>When you ran the <code class="highlighter-rouge">rails generate scaffold</code> command, in addition to creating the idea model, you also created an accompanying ideas controller (<code class="highlighter-rouge">ideas_controller.rb</code>), located in the controllers folder, and an ideas views folder containing several files that you will use to create a dynamic application.</p>
+
+<p>When attempting to display a Rails website, a web browser sends a request via the server which eventually hits the Rails <em>controller</em>. <em>Controllers</em> act as mediators between the <em>views</em> and the <em>models</em>. When the <em>controller</em> receives the information, it communicates with a <em>model</em> representing a resource of the application (in our case, an “idea”) which in turn communicates with the database. Upon retrieving the required information from the <em>model</em>, the <em>controller</em> renders the <em>view</em> which returns the complete web page to the browser as HTML.</p>
+
+<h3 id="css-and-layouts">CSS and layouts</h3>
+<p>CSS (Cascading Style Sheets) is a language used to describe the formatting of pages written in a ‘markup language’, i.e. a language for processing, defining and presenting text with a prescribed formatting code e.g. tags, that distinguish it from plain text. The most common application of CSS is in conjunction with HTML.</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span> <span class="nl">padding-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">footer</span> <span class="p">{</span> <span class="nl">margin-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="o">,</span> <span class="nt">td</span><span class="o">,</span> <span class="nt">th</span> <span class="p">{</span> <span class="nl">vertical-align</span><span class="p">:</span> <span class="nb">middle</span><span class="p">;</span> <span class="nl">border</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">th</span> <span class="p">{</span> <span class="nl">border-bottom</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#DDD</span><span class="p">;</span> <span class="p">}</span></code></pre></figure>
+
+<p>Within the CSS you have applied:</p>
+
+<p><code class="highlighter-rouge">body</code> - this part is known as the selector and refers to the HTML element you wish to style.
+<code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">padding-top:</span><span class="w"> </span><span class="err">100px;</span><span class="w"> </span><span class="p">}</span></code> - this part is known as the declaration; each declaration has a property which is the style attribute you wish to change (<code class="highlighter-rouge">padding-top</code>), and an associated value (<code class="highlighter-rouge">100px</code>). Declarations always end with a semicolon and declaration groups are always enclosed by curly brackets.</p>
+
+<p>For each Rails application there is a default layout file called <code class="highlighter-rouge">application.html.erb</code>, located in the layouts folder of your views directory. With this file you can create a default format for all of the pages in your application.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"http://railsgirls.com/assets/bootstrap.css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>In the above code, the <code class="highlighter-rouge">link rel</code> (link relation) is defining the nature of the URL that the <code class="highlighter-rouge">href</code> (hypertext reference) attribute is requesting content from. This argument indicates that the external source requested is a stylesheet and the web browser will need to fetch this file to render the page properly.</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>This code returns a stylesheet link tag for the source, in this case “application”, i.e. <code class="highlighter-rouge">application.css</code>. This means that the styling you implemented in application.css will be applied to the various pages of your application.</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>In this code:</p>
+
+<ul>
+  <li>The HTML <code class="highlighter-rouge">div</code> tag divides the code into parts.</li>
+  <li>The <em>container class</em> adds additional styling to everything inside the div tags</li>
+  <li>The <code class="highlighter-rouge">&lt;%= yield %&gt;</code> argument is responsible for inserting the unique content from each page into the container <code class="highlighter-rouge">div</code>. This means that in your application the overall layout can be consistent even though the content will differ from page to page.</li>
+</ul>
+
+<h2 id="a-id4addpictureuploads4-add-picture-uploadsa"><a id="4_add_picture_uploads"><em>4.</em> Add picture uploads</a></h2>
+
+<h3 id="libraries">Libraries</h3>
+<p>Many programming languages, including Ruby, use a wide range of libraries. In Ruby’s case, most of these libraries are released in the form of self-contained packages called <em>gems</em>, which contain all the information required to install and implement them. These gems are contained in your application’s <code class="highlighter-rouge">Gemfile</code> and if you look in this file you’ll notice that when you created your first Rails application it came with several gems that ensure your application functions correctly.</p>
+
+<p>Gems help simplify and prevent repetition in a developer’s code, in keeping with the DRY (Don’t Repeat Yourself) principle of software development. Gems may solve specific problems, add specific functionality, or address specific requirements, meaning that should another developer encounter a similar scenario, instead of writing new code, they can install a gem containing pre-written code. For example, “CarrierWave”, the gem you are adding to your gemfile is designed to make it easy to upload files to your application.</p>
+
+<p>“Bundler” is the software Ruby uses to track and manage gems. The <code class="highlighter-rouge">bundle</code> command runs Bundler and installs the gems specified in your Gemfile. You’ll notice the code <code class="highlighter-rouge">source 'https://rubygems.org'</code> at the top of your Gemfile. Whenever you add a gem to your gemfile and run the <code class="highlighter-rouge">bundle</code> command, this code tells your application to fetch the gem from <a href="https://rubygems.org">https://rubygems.org</a>. “RubyGems” is a Ruby-specific packaging system, the purpose of which is to simplify the creation, sharing and installation of gems.</p>
+
+<h3 id="open-source-software">Open-source software</h3>
+
+<p>Both the Rails framework and the Ruby language are examples of open-source software. Open-source software is released under a licence which ensures universal access; anyone has the right to change, study and distribute the software. Making the source code accessible enables the establishment of a diverse, reflexive, collaborative and consequently ever-evolving interactive community of programmers who all benefit from each others’ developments.</p>
+
+<h3 id="more-html">More HTML</h3>
+
+<p>The file <code class="highlighter-rouge">app/views/ideas/_form.html.erb</code> contains HTML code that determines the look and feel of the form used for editing and creating ideas (the <code class="highlighter-rouge">edit.html.erb</code> and <code class="highlighter-rouge">new.html.erb</code> views). A partial is a snippet of HTML and Ruby code that can be reused in multiple locations. The form for editing existing ideas and the form for creating new ideas will look pretty much the same, so it makes sense to have one form for both files to use. If you look in these files you’ll notice that they have a customised heading (e.g. <code class="highlighter-rouge">&lt;h1&gt;Editing idea&lt;/h1&gt;</code>) and then they simply say <code class="highlighter-rouge">&lt;%= render 'form' %&gt;</code> which tells Rails to render the partial <code class="highlighter-rouge">_form.html.erb</code>.</p>
+
+<p>If you take a look in the <code class="highlighter-rouge">_form.html.erb</code> file, you will see the code <code class="highlighter-rouge">form_for</code> in the first line of code. This is a block used to create an HTML form. Using this block, we can access methods to put different input fields in the form.</p>
+
+<p>The code we are implementing, <code class="highlighter-rouge">&lt;%= f.file_field :picture %&gt;</code>, tells Rails to create a file input on the form and map the submitted information to the ‘picture’ attribute of an ‘idea’ in our ideas database table. We changed the code from <code class="highlighter-rouge">&lt;%= f.text_field :picture %&gt;</code> to <code class="highlighter-rouge">&lt;%= f.file_field :picture %&gt;</code> because <code class="highlighter-rouge">file_field</code> makes it easier for the user to select the image they wish to upload.</p>
+
+<p>In the code <code class="highlighter-rouge">&lt;%= @idea.picture %&gt;</code>, <code class="highlighter-rouge">@idea</code> is known as an <em>instance variable</em>. Instance variables are prefixed with an @ symbol and are defined in the controller action that corresponds with the view in which they are referenced. For the purposes of the code we are implementing, <code class="highlighter-rouge">@idea</code> is defined in the ‘show’ action of the <code class="highlighter-rouge">Ideas</code> controller, with the code <code class="highlighter-rouge">@idea = Idea.find(params[:id])</code>. This makes it available for us to use in the view <code class="highlighter-rouge">show.html.erb</code>. It could be defined differently in different controller actions (e.g. index or new). The code <code class="highlighter-rouge">@idea = Idea.find(params[:id])</code> uses the Rails <code class="highlighter-rouge">find</code> method to retrieve specific ideas from the database.</p>
+
+<p>The code that follows the <code class="highlighter-rouge">@idea</code> variable (<code class="highlighter-rouge">.picture</code>) tells Rails to access the ‘picture’ attribute of our resource (idea). By replacing the code  <code class="highlighter-rouge">&lt;%= @idea.picture %&gt;</code> with <code class="highlighter-rouge">&lt;%= image_tag(@idea.picture_url...)</code> we are using the Ruby <code class="highlighter-rouge">image_tag</code> <em>helper</em> which translates to an HTML <code class="highlighter-rouge">&lt;img&gt;</code> tag (used to define images in HTML) but by default retrieves images from the folder public/images, which is where our uploaded images are stored. The <code class="highlighter-rouge">image_tag</code> helper also allows us to insert a block of code which creates a path to an image associated with a particular idea (<code class="highlighter-rouge">@idea.picture_url</code>).</p>
+
+<p>You will notice that within this block of code you are implementing we are also able to set a default width for each image (<code class="highlighter-rouge">:width =&gt; 600</code>). The final line of code <code class="highlighter-rouge">if @idea.picture.present?</code> tells Rails to check the corresponding database table to see whether a picture exists before rendering the code underneath.</p>
+
+<h2 id="a-id5finetunetheroutes5-finetune-the-routesa"><a id="5_finetune_the_routes"><em>5.</em> Finetune the routes</a></h2>
+
+<p>In a functional Rails application, there is an inbuilt system in place for translating incoming requests from the browser in order to return the intended response. This system is called <em>routing</em>. Requests from the browser are interpreted as specific HTTP methods. HTTP (Hypertext Transfer Protocol) is the protocol that defines how information (usually webpages or webpage components composed of text with hyperlinks - ‘hypertext’), is formatted and transmitted across the internet. There are four primary HTTP methods, each of which is a request to perform an operation on a specific resource (e.g. users, posts); GET, POST, PUT and DELETE. Rails’ inbuilt routing system automatically generates routes for each resource that map to specific actions (index, show, new, edit, create, update, delete) defined in the controller. So, for each of our models, there are seven related actions defined in the associated controller, <code class="highlighter-rouge">ideas_controller.rb</code>. These actions specify the appropriate response (a ‘method’) which is most likely to render the corresponding view, e.g. <code class="highlighter-rouge">ideas/index.html.erb</code>.</p>
+
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<td>HTTP Method</td>
+			<td>Path</td>
+			<td>Action</td>
+			<td>used for</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>GET</td>
+			<td>/ideas</td>
+			<td>index</td>
+			<td>displaying a list of all ideas</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>/ideas/new</td>
+			<td>new</td>
+			<td>returning an HTML form for creating a new idea</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td>/ideas</td>
+			<td>create</td>
+			<td>creating a new idea</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>/photos/:id</td>
+			<td>show</td>
+			<td>displaying a specific photo</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td>/photos/:id/edit</td>
+			<td>edit</td>
+			<td>returning an HTML form for editing a specific photo</td>
+		</tr>
+		<tr>
+			<td>PUT</td>
+			<td>/photos/:id</td>
+			<td>update</td>
+			<td>updating a specific photo</td>
+		</tr>
+		<tr>
+			<td>DELETE</td>
+			<td>/photos/:id</td>
+			<td>destroy</td>
+			<td>deleting a specific photo</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>If you look in your <code class="highlighter-rouge">ideas_controller.rb</code> you can see these actions and the associated behaviour, and the HTTP method that corresponds with each action:</p>
+
+<figure class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="c1"># show.html.erb</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@idea</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># GET /ideas/new</span>
+  <span class="c1"># GET /ideas/new.json</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">show</code> - the controller action</p>
+
+<figure class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="c1"># show.html.erb</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@idea</span> <span class="p">}</span></code></pre></figure>
+
+<p>(This code is difficult to dissect with much clarity at this stage but if you persist with Rails you will get a better understanding as time progresses.)</p>
+
+<p>In the above definition of the show action, Rails is using a <code class="highlighter-rouge">respond_to</code> helper method, which tells Rails to execute the subsequent <em>block</em> of code (the code enclosed by the <code class="highlighter-rouge">do...end</code> syntax). This code contains two different formatting options depending on the nature of the request. If the browser requests HTML then the HTML code contained in the view that corresponds with this controller action (<code class="highlighter-rouge">show.html.erb</code>) is rendered. If json is requested then the view is bypassed and limited information is provided.</p>
+
+<p><code class="highlighter-rouge">GET</code> - this is a comment to let us know which HTTP method is being executed.</p>
+
+<p>So, URL requests, translated into HTTP methods, are mapped to controller actions which tell Rails to return a view.</p>
+
+<p>When we insert the code <code class="highlighter-rouge">root :to =&gt; redirect('/ideas')</code> into our <code class="highlighter-rouge">config.rb</code>, it tells Rails to make the default root of our application <a href="http://localhost:3000/ideas">http://localhost:3000/ideas</a> (note Localhost is being used as the domain because our application is still in development, when you launch your application this domain will be different). This URL contains a path (<code class="highlighter-rouge">/ideas</code>) which, by default, maps the URL to the ‘index’ action of our ideas controller and renders the associated view; <code class="highlighter-rouge">index.html.erb</code>. The code <code class="highlighter-rouge">rm public/index.html</code> removes (<code class="highlighter-rouge">rm</code>) the <code class="highlighter-rouge">public/index.html</code> file, containing the “Welcome Aboard” code, which was the previous default root for our application.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

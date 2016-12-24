@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Add design to your App with HTML and CSS - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <p>1.Design your header</p>
+
+<ul>
+  <li>
+    <p>put the following code to the bottom of <code class="highlighter-rouge">app/assets/stylesheets/application.css</code>:</p>
+
+    <p><code class="highlighter-rouge">
+  .navbar {
+      min-height: 38px;
+    background-color: #f55e55;
+  }
+ </code></p>
+
+    <p>Now refresh the page and check the changes. You can try change the
+  color or font of the header. You can check the color reference
+  from <a href="http://color.uisdc.com/">http://color.uisdc.com/</a>.</p>
+
+    <p>**Coach: ** talk about the property <code class="highlighter-rouge">display</code>, inline and block element.</p>
+  </li>
+  <li>
+    <p>Then put these lines at the bottom：</p>
+
+    <p><code class="highlighter-rouge">
+  .navbar a.brand { font-size: 18px; }
+  .navbar a.brand:hover {
+   color: #fff;
+   background-color: transparent;
+   text-decoration: none;
+  }
+ </code></p>
+
+    <p>**Coach: ** explain the 4 states of a link</p>
+  </li>
+</ul>
+
+<p>2.Design your table</p>
+
+<ul>
+  <li>
+    <p>We simply use the twitter <a href="http://getbootstrap.com/">Bootstrap</a> to
+polish our table. Find this line from
+app/views/ideas/index.html.erb and replace:</p>
+
+    <p><code class="highlighter-rouge">&lt;table&gt;</code></p>
+
+    <p>with</p>
+
+    <p><code class="highlighter-rouge">&lt;table class="table"&gt;</code></p>
+  </li>
+  <li>
+    <p>Modify size of the picture using the following lines</p>
+
+    <p><code class="highlighter-rouge">
+  &lt;%= image_tag(idea.picture_url, :width =&gt; 600) if idea.picture.present? %&gt;
+ </code></p>
+
+    <p>try to change the width and see what’s gonna happen</p>
+  </li>
+  <li>
+    <p>add the following lines to the bottom of file app/assets/stylesheets/ideas.css.scss:</p>
+  </li>
+</ul>
+
+<p><code class="highlighter-rouge">
+  .container a:hover {
+    color: #f55e55;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0);
+  }
+ </code></p>
+
+<ul>
+  <li>try add some background style with property <code class="highlighter-rouge">background-image</code>,
+reference to
+<a href="http://subtlepatterns.com/">http://subtlepatterns.com/</a> for some patterns.</li>
+</ul>
+
+<p>3.add style to footer</p>
+
+<ul>
+  <li>
+    <p>add the lines to bottom of  app/assets/stylesheets/application.css:</p>
+
+    <p><code class="highlighter-rouge">
+  footer {
+    background-color: #ebebeb;
+    padding: 30px 0;
+  }
+ </code></p>
+
+    <p>try put more things into <code class="highlighter-rouge">footer</code>, then adjust it’s position.</p>
+  </li>
+</ul>
+
+<p>4.add style to button</p>
+
+<ul>
+  <li>open
+<a href="http://localhost:3000/ideas/new">http://localhost:3000/ideas/new</a>
+and find the <code class="highlighter-rouge">Create Idea</code> button.</li>
+</ul>
+
+<p>add these lines to app/assets/stylesheets/ideas.css.scss</p>
+
+<p><code class="highlighter-rouge">
+   .container input[type="submit"] {
+      height: 30px;
+      font-size: 13px;
+      background-color: #f55e55;
+      border: none;
+      color: #fff;
+    }
+  </code></p>
+
+<p><strong>Coach</strong> explain how to use <code class="highlighter-rouge">border</code> in css, try modify the style
+     of button like round the corner, add shadow or color etc.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

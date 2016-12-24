@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ruby ATM - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="ruby-atm">Ruby ATM</h1>
+
+<p><em>Created by Joshua Paling, <a href="https://twitter.com/joshuapaling">@joshuapaling</a></em></p>
+
+<p>In this exercise you will write a function to handle withdrawing money from an ATM. It is intended to challenge you! Be prepared to ask lots of questions, Google things, and take a step back from the computer. But you’ll learn a lot!</p>
+
+<p>You should use pair, group, or remote programming so you have other programmers to bounce ideas off. You’ll use Test Driven Development. However, all the tests have been pre-written for you, so you can focus on the code itself.</p>
+
+<p>We’ll start simple, but ramp the difficulty up pretty steeply toward the end!</p>
+
+<h2 id="workflow">Workflow</h2>
+
+<p>For each step, you will need to take the following actions:</p>
+
+<p><strong>1. Run the new tests:</strong> Delete tests from the previous step, and paste in the pre-written tests for the current step. <em>(Tests for each step are show at the bottom of that step.)</em> Run the tests to see which ones fail. In sublime text, you can hit <kbd>Ctrl</kbd>+<kbd>B</kbd> to run the tests. Or, you can open a terminal, <code class="highlighter-rouge">cd</code> into your working directory, and run <code class="highlighter-rouge">ruby atm.rb</code>.</p>
+
+<p><strong>2. Make the tests pass:</strong> Edit your code to meet the functionality requirements of the current step. You’ll know you’ve got it right when all your tests are green.</p>
+
+<p><strong>3. Refactor:</strong> See if there are any edits you can make to ensure your code is as clean and easy to understand as possible. Some steps have discussion points. Discuss them with your pair - they’ll help you moving forward.</p>
+
+<p>You may recognise these steps as the <strong>red, green, refactor</strong> workflow of TDD.</p>
+
+<h2 id="bills"><em>1.</em> $5 bills</h2>
+
+<p>Imagine an ATM that holds only $5 notes. Write a function that returns <code class="highlighter-rouge">true</code> if an amount can be returned, and <code class="highlighter-rouge">false</code> otherwise.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(15)</code> should return <code class="highlighter-rouge">true</code></li>
+  <li><code class="highlighter-rouge">withdraw(18)</code> should return <code class="highlighter-rouge">false</code>, because $18 cannot be made up of $5 notes</li>
+</ul>
+
+<p><strong>Tips for getting tests green:</strong></p>
+
+<p>The modulus operator, <code class="highlighter-rouge">%</code> gets the remainder of a division. Eg, <code class="highlighter-rouge">9 % 4</code> results in <code class="highlighter-rouge">1</code> (nine divided by four has a remainder of 1).</p>
+
+<p><strong>Starting code:</strong></p>
+
+<p>Create a file called <code class="highlighter-rouge">atm.rb</code>. paste the following code into it. This contains the shell of your <code class="highlighter-rouge">withdraw()</code> function, along with tests.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="c1"># this deals with some of the situations...</span>
+    <span class="k">return</span> <span class="kp">false</span>
+  <span class="k">end</span>
+  <span class="c1"># ToDo: figure out this bit</span>
+<span class="k">end</span></code></pre></figure>
+
+<h3 id="tests-for-step-1">Tests for step 1:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># import required testing libraries</span>
+<span class="nb">require</span> <span class="s1">'minitest/spec'</span>
+<span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
+
+<span class="c1"># BELOW ARE THE TESTS FOR AUTOMATICALLY CHECKING YOUR SOLUTION.</span>
+<span class="c1"># THESE TESTS ARE FOR STEP 1.</span>
+<span class="c1"># THESE NEED TO BE REPLACED AFTER EACH STEP.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">43</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="kp">true</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="kp">true</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="kp">true</span><span class="p">],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="how-many-bills"><em>2.</em> How many bills?</h2>
+<p>Now, modify your function so that if the amount <em>can</em> be withdrawn, it will return the appropriate number of notes, rather than simply <code class="highlighter-rouge">true</code></p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(15)</code> should return <code class="highlighter-rouge">3</code>, since three $5 notes makes $15</li>
+  <li><code class="highlighter-rouge">withdraw(20)</code> should return <code class="highlighter-rouge">4</code>, since four $5 notes makes $20</li>
+  <li><code class="highlighter-rouge">withdraw(11)</code> should return <code class="highlighter-rouge">false</code>, because $11 cannot be made up of $5 notes</li>
+</ul>
+
+<p><strong>Tips for getting tests green:</strong></p>
+
+<p>The <code class="highlighter-rouge">/</code> operator performs a division. For example, if you wanted to get half your age, and store it in a variable, you’d do this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_age</span> <span class="o">=</span> <span class="mi">28</span>
+<span class="n">half_my_age</span> <span class="o">=</span> <span class="n">my_age</span> <span class="o">/</span> <span class="mi">2</span></code></pre></figure>
+
+<p>In ruby, when you do division with two whole numbers (integers), the result is rounded down to the nearest whole number.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">new_number</span> <span class="o">=</span> <span class="mi">25</span><span class="o">/</span><span class="mi">10</span>
+<span class="c1"># new_number contains 2, because 25/10 = 2.5, and ruby will round that down to 2.</span></code></pre></figure>
+
+<h3 id="tests-for-step-2">Tests for step 2:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Replace your existing tests with the ones below.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">43</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="array-of-notes"><em>3.</em> Array of notes</h2>
+
+<p>In programming, an <code class="highlighter-rouge">array</code> is basically a collection of things. It’s like a list.</p>
+
+<p>Rather than returning the number of notes, modify the code so that it returns an array of notes (in this case, all $5’s).</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(15)</code> should return an array, <code class="highlighter-rouge">[5, 5, 5]</code>. (That’s basically a collection of three $5 notes)</li>
+  <li><code class="highlighter-rouge">withdraw(11)</code> should return <code class="highlighter-rouge">false</code>, because $11 cannot be made up of $5 notes</li>
+</ul>
+
+<p><strong>Tips for getting tests green:</strong></p>
+
+<p><code class="highlighter-rouge">[]</code> defines an empty array. <code class="highlighter-rouge">[1, 2]</code> defines an array with two elements (1 and 2).</p>
+
+<p>The shovel operator (<code class="highlighter-rouge">&lt;&lt;</code>) adds an element to an array. Eg. <code class="highlighter-rouge">[10, 20] &lt;&lt; 30</code> will add 30 to the array, resulting in <code class="highlighter-rouge">[10, 20, 30]</code>.</p>
+
+<p>The <code class="highlighter-rouge">times</code> method executes a block of code several times - eg. <code class="highlighter-rouge">5.times { puts 'hello' }</code> will print ‘hello’ 5 times.</p>
+
+<p>Bringing it all together:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_array</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># create an empty array and store it in my_array</span>
+<span class="n">my_array</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span> <span class="c1"># now my array contains [20]</span>
+<span class="n">my_array</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span> <span class="c1"># now my_array contains [20, 30]</span>
+<span class="n">remainder</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">%</span> <span class="mi">5</span> <span class="c1"># remainder is 3</span>
+<span class="n">remainder</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">my_array</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span> <span class="p">}</span> <span class="c1"># now my_array contains [20, 30, 5, 5, 5]</span></code></pre></figure>
+
+<h3 id="tests-for-step-3">Tests for step 3:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Replace your existing tests with the ones below.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">43</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="notes"><em>4.</em> $10 notes</h2>
+
+<p>Now imagine the ATM returns only $10 notes. Modify your function to accommodate this.</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(20)</code> should return an array, <code class="highlighter-rouge">[10, 10]</code></li>
+  <li><code class="highlighter-rouge">withdraw(15)</code> should return <code class="highlighter-rouge">false</code>, because $15 cannot be made up of $10 notes</li>
+</ul>
+
+<h3 id="tests-for-step-4">Tests for step 4:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Replace your existing tests with the ones below.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h3 id="refactor">Refactor</h3>
+<p>Once you have your tests passing, it’s time to refactor.</p>
+
+<p>In programming, <a href="http://en.wikipedia.org/wiki/Magic_number_(programming)">‘Magic Numbers’</a> are a bad thing (don’t be fooled by the name!). They refer to a hard-coded value that just sort of <em>appears</em> out of thin air, with no clear explanation of what that particular number represents.</p>
+
+<p>Consider how easy / hard it is to understand the following code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># BAD - magic number!</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">*</span> <span class="mi">4</span><span class="o">.</span><span class="mi">45</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># BAD - nondescript variable name is not much better!</span>
+<span class="n">value</span> <span class="o">=</span> <span class="mi">4</span><span class="o">.</span><span class="mi">45</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">*</span> <span class="n">value</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># GOOD - isn't this much easier to understand?</span>
+<span class="n">interest_rate</span> <span class="o">=</span> <span class="mi">4</span><span class="o">.</span><span class="mi">45</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">*</span> <span class="n">interest_rate</span></code></pre></figure>
+
+<p>Magic numbers are particularly troublesome when the same hard-coded value appears in multiple places.</p>
+
+<p>Did you use magic numbers? Can you refactor your code to eliminate them?</p>
+
+<h2 id="and-10-notes"><em>5.</em> $5 and $10 notes</h2>
+
+<p>Imagine your ATM now holds $5 and $10. People want as few notes as possible.</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(25)</code> should return <code class="highlighter-rouge">[10, 10, 5]</code></li>
+  <li><code class="highlighter-rouge">withdraw(11)</code> should return <code class="highlighter-rouge">false</code>, because $11 cannot be made up of $5 and $10 notes</li>
+</ul>
+
+<h3 id="tests-for-step-5">Tests for step 5:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Replace your existing tests with the ones below.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="and-20-notes"><em>6.</em> $5, $10, and $20 notes</h2>
+
+<p>Your ATM now holds $5, $10, and $20 notes. Modify your function to accommodate this.</p>
+
+<p><strong>Note:</strong> at this point, each higher denomination can be evenly divided by each lower denomination - eg. $20 / $10 = 2. Things get much trickier when that’s not the case (eg, $50’s and $20’s). For this step, we’ll intentionally not deal with this case to make it easier.</p>
+
+<p><strong>Examples</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">withdraw(15)</code> should return <code class="highlighter-rouge">[10, 5]</code></li>
+  <li><code class="highlighter-rouge">withdraw(25)</code> should return <code class="highlighter-rouge">[20, 5]</code></li>
+  <li><code class="highlighter-rouge">withdraw(35)</code> should return <code class="highlighter-rouge">[20, 10, 5]</code></li>
+  <li><code class="highlighter-rouge">withdraw(11)</code> should return <code class="highlighter-rouge">false</code>, because $11 cannot be made up of $5 and $10 notes</li>
+</ul>
+
+<p><strong>Tips for getting tests green:</strong></p>
+
+<p>To tell if an array is empty: <code class="highlighter-rouge">my_array.empty?</code></p>
+
+<p>To tell if an array is not empty: <code class="highlighter-rouge">!my_array.empty?</code></p>
+
+<p>To remove the first element off an array: <code class="highlighter-rouge">my_array.shift</code>. Eg, <code class="highlighter-rouge">[1, 2, 3].shift</code> results in <code class="highlighter-rouge">[2, 3]</code></p>
+
+<h3 id="tests-for-step-6">Tests for step 6:</h3>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Replace your existing tests with the ones below.</span>
+<span class="n">describe</span> <span class="s1">'atm'</span> <span class="k">do</span>
+  <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="kp">false</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">65</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">]],</span>
+    <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+  <span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="o">|</span>
+    <span class="n">it</span> <span class="s2">"should return </span><span class="si">#{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> when $</span><span class="si">#{</span><span class="n">input</span><span class="si">}</span><span class="s2"> is withdrawn"</span> <span class="k">do</span>
+      <span class="n">withdraw</span><span class="p">(</span><span class="n">input</span><span class="p">).</span><span class="nf">must_equal</span> <span class="n">expected</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h3 id="refactor-1">Refactor</h3>
+
+<ul>
+  <li>How many lines did you have to change, going from step 5 to step 6?</li>
+  <li>What if we made $100 notes available, as well? Could you do this in a single line?</li>
+  <li>Refactor your code so that you could change to $100, $20 and $10 notes, by changing a single line.</li>
+  <li>What is the most future-proof solution?</li>
+</ul>
+
+<h2 id="final-discussion-points"><em>7.</em> Final Discussion Points</h2>
+<ul>
+  <li>Given a particular solution <em>works</em>, what makes it ‘good’ or ‘bad’ code?</li>
+  <li>Can you think of any take-home best practices or principles? Is code structure important? Why?</li>
+  <li>Did you have any ‘Aha!’ moments? What were they?</li>
+  <li>Let’s say you started a little ATM company, which quickly expanded to become a global success. How suitable is your code for dealing with all denominations of currency, in all nations of the world? Did it get more suitable with each step?</li>
+</ul>
+
+<h2 id="challenge-50-and-20-notes">Challenge! $50 and $20 notes</h2>
+
+<p>Up til now, we’ve intentionally avoided the case where a smaller note cannot fit evenly into each larger one. For example, we’ve avoided the case of having only $50s and $20s (where 20 does not divide evenly into 50). Can you see why this case will be harder? If your current code were to include only $50s and $20s, what would happen when you try to withdraw $60, or $110? In your head, or on paper, can you think of what logic would be needed to be in place to handle these cases correctly? If you’re up for a challenge, try to handle this case in your code! (You’ll need to write the tests yourself for this step).</p>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

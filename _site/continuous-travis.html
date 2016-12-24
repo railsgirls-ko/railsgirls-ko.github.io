@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Continuous Deployment - cuz less hassle - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="continuous-deployment-with-travis">Continuous Deployment with Travis</h1>
+
+<p><em>Created by Floor Drees, <a href="https://twitter.com/floordrees">@floordrees</a></em></p>
+
+<h3 id="what-is-this-continuous-deployment-thing">What is this Continuous Deployment thing?</h3>
+
+<p>Continuous deployment is part of the continuous delivery ‘movement’. The idea behind continuous delivery is to automate the software delivery process as far as possible.</p>
+
+<p>With a working continuous deployment chain in place you’ll enforce Git deployments (everything must be committed to be tested and everything must be tested to be deployed), making collaboration easier and deployment faster. So you can focus on making your app even more awesome!</p>
+
+<p>There are a few great companies sailing the continuous wave, in this guide we’ll set up continuous deployment for our Ruby on Rails app from GitHub to anynines, using <a href="http://about.travis-ci.org/">Travis-ci</a>.</p>
+
+<p><strong>COACH</strong>: Talk about the benefits of continuous deployment.</p>
+
+<p>###Github, Travis CI and anynines</p>
+
+<p>The first thing we need is an app in a Github repository. And we have just that! Next you’ll need to make sure you followed the guide on how to deploy your app via anynines until the very last step.</p>
+
+<p>Then, we need to create a file called <code class="highlighter-rouge">manifest.yml</code> in the main directory of your app, so we can save some information about the deployment there. In your terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">cf push</code></pre></figure>
+
+<p>This will trigger a first deployment to anynines. The cf gem will notice that there is no <code class="highlighter-rouge">manifest.yml</code> and will ask you a standard set of configuration questions such as the desired number and memory size of your app instances, whether and which services to bind to them and most importantly, whether you want to store this information.
+Please answer this question with a ‘hell yes’ as it will create the desired <code class="highlighter-rouge">manifest.yml</code> file!</p>
+
+<p>Once your push was successful, you should be able to access your application using a browser of your choice, which means your are ready to setup Travis!</p>
+
+<p>For now we don’t have ‘real tests’, so we will go ahead and create a Travis configuration file that will fake a succeeding test suite. Please go to your local app directory and create a <code class="highlighter-rouge">.travis.yml</code> file. At the moment, paste the following content. We’ll add some more information later on, using the Travis gem.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">language: ruby
+script: <span class="s1">'true'</span></code></pre></figure>
+
+<p>Your app now contains the Travis configuration but how should Travis know when to pull your code from Github and trigger test execution? This is where Github hooks come into play!</p>
+
+<h4 id="travis-ci-github-hook-activation">Travis CI Github hook activation</h4>
+
+<p>Commit and push a code change to your repository and check travis-ci.org to see if your test suite is being executed. You should also receive an email that your build succeeded.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add .  
+git commit -m <span class="s2">"test Travis integration"</span>  
+git push origin master</code></pre></figure>
+
+<p>Now we can configure the actual deployment.
+Let’s use the travis gem:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">gem install travis</code></pre></figure>
+
+<p>Now use the <code class="highlighter-rouge">travis</code> command to setup the anynines deployment.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">travis setup cloudfoundry</code></pre></figure>
+
+<p>In case you don’t know the anynines target URL use</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">cf target</code></pre></figure>
+
+<p>to gather all information required for Travis setup. This includes target url, username, the organization and space you are currently using. You can also take a look-see at the welcome mail you have received after signing up at anynines.com.</p>
+
+<p>After the <code class="highlighter-rouge">travis</code> command has finished, your <code class="highlighter-rouge">.travis.yml</code> should look somewhat like this:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">language: ruby
+script: <span class="s1">'true'</span>
+deploy:
+  provider: cloudfoundry
+  target: https://api.de.a9s.eu
+  username: jane.doe@example.com
+  password:
+    secure: your encryped password determined by the travis <span class="nv">gem</span><span class="o">=</span>
+  organization: railsgirls
+  space: heaven
+  on:
+    repo: jane/railsgirls</code></pre></figure>
+
+<p>Don’t forget to commit and push your changes to <code class="highlighter-rouge">.travis.yml</code> as it will be required in your Github repository to take effect.</p>
+
+<p>From now on whenever you commit changes to your Github repository, tests will be run and your app is being deployed. Travis will then show a log output similar to this:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">Installing deploy dependencies
+Fetching: addressable-2.3.5.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed addressable-2.3.5
+Fetching: multi_json-1.7.9.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed multi_json-1.7.9
+Fetching: caldecott-client-0.0.2.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed caldecott-client-0.0.2
+Fetching: i18n-0.6.5.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed i18n-0.6.5
+Fetching: tzinfo-0.3.37.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed tzinfo-0.3.37
+Fetching: minitest-4.7.5.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed minitest-4.7.5
+Fetching: atomic-1.1.13.gem <span class="o">(</span>100%<span class="o">)</span>
+Building native extensions.  This could take a <span class="k">while</span>...
+Successfully installed atomic-1.1.13
+Fetching: thread_safe-0.1.2.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed thread_safe-0.1.2
+Fetching: activesupport-4.0.0.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed activesupport-4.0.0
+Fetching: builder-3.1.4.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed builder-3.1.4
+Fetching: activemodel-4.0.0.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed activemodel-4.0.0
+Fetching: cf-uaa-lib-2.0.0.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed cf-uaa-lib-2.0.0
+Fetching: multipart-post-1.2.0.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed multipart-post-1.2.0
+Fetching: rubyzip-0.9.9.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed rubyzip-0.9.9
+Fetching: cfoundry-4.3.6.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed cfoundry-4.3.6
+Fetching: interact-0.5.2.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed interact-0.5.2
+Fetching: json_pure-1.8.0.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed json_pure-1.8.0
+Fetching: mothership-0.5.1.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed mothership-0.5.1
+Fetching: mime-types-1.25.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed mime-types-1.25
+Fetching: rest-client-1.6.7.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed rest-client-1.6.7
+Fetching: uuidtools-2.1.4.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed uuidtools-2.1.4
+Fetching: cf-5.2.2.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed cf-5.2.2
+22 gems installed
+dpl.2
+Preparing deploy
+Setting target to https://api.de.a9s.eu...... OK
+target: https://api.de.a9s.eu
+Authenticating.. .  ... OK
+Switching to organization railsgirls... OK
+Switching to space heaven... OK
+dpl.3
+Deploying application
+Using manifest file manifest.yml
+Uploading railsgirls... OK
+Stopping railsgirls... OK
+Preparing to start railsgirls... OK
+Checking status of app <span class="s1">'railsgirls'</span>...
+  0 of 1 instances running <span class="o">(</span>1 starting<span class="o">)</span>
+  0 of 1 instances running <span class="o">(</span>1 starting<span class="o">)</span>
+  1 of 1 instances running <span class="o">(</span>1 running<span class="o">)</span>
+Push successful! App <span class="s1">'railsgirls'</span> available at http://railsgirls.de.a9sapp.eu
+Logging out... OK</code></pre></figure>
+
+<p>This means your are done and good to go!</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

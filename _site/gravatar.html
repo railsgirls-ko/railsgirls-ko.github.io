@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Adding Graviatar to you app - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="adding-gravatar-to-your-app">Adding Gravatar to your App</h1>
+
+<p><em>Created by Catherine Jones</em></p>
+
+<p>This guide assumes that you have already built a Rails Girls app by following this <a href="http://guides.railsgirls.com/app/">app development guide</a> and added authentication using <a href="http://guides.railsgirls.com/devise/">Devise</a>.</p>
+
+<h3 id="important">Important</h3>
+
+<p>You need to have an e-mail address registered with Gravatar for this to work. If you do not already have one you can go to <a href="http://en.gravatar.com/">gravatar.com</a>.</p>
+
+<h2 id="add-the-gravtastic-gem"><em>1.</em> Add the Gravtastic gem</h2>
+
+<p>Open up your gemfile and under your <code class="highlighter-rouge">devise</code> gem add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'gravtastic'</span></code></pre></figure>
+
+<p>In the terminal run</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install</code></pre></figure>
+
+<p>This will install the gravtastic gem. Then remember to restart your rails server.</p>
+
+<h2 id="set-up-gravatar-in-your-app"><em>2.</em> Set up Gravatar in your app</h2>
+
+<p>Open <code class="highlighter-rouge">app/models/user.rb</code>, and add these lines</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">include</span> <span class="no">Gravtastic</span>
+<span class="n">gravtastic</span></code></pre></figure>
+
+<p>right after the first line.</p>
+
+<h2 id="configure-gravatar"><em>3.</em> Configure Gravatar</h2>
+
+<p>Open <code class="highlighter-rouge">app/views/layouts/application.html.erb</code> and in the</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>section but before the</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">gravatar_url</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Now open you app in your browser and login with an e-mail address that is associated with a Gravatar. You should be able to see your Gravatar.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

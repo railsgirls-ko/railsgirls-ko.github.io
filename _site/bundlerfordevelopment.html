@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bundler for development - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="how-to-set-up-bundler-for-development">How to Set Up Bundler for Development</h1>
+
+<ol>
+  <li>
+    <p>Fork Bundler</p>
+
+    <p>Go to the Bundler Github <a href="https://github.com/bundler/bundler">https://github.com/bundler/bundler</a></p>
+
+    <p>Press the fork button.</p>
+
+    <p>Fork Bundler so you can create pull requests with your changes</p>
+  </li>
+</ol>
+
+<p>
+<img src="../images/fork1.jpg" />
+<br />
+</p>
+
+<ol>
+  <li>
+    <p>Download a copy of your fork of Bundler</p>
+
+    <p><code class="highlighter-rouge">$ git clone https://github.com/user_name/bundler.git</code></p>
+  </li>
+  <li>
+    <p>Change into the Bundler directory</p>
+
+    <p><code class="highlighter-rouge">$ cd bundler</code></p>
+  </li>
+  <li>
+    <p>Configure the remote</p>
+
+    <p><code class="highlighter-rouge">$ git remote add upstream https://github.com/bundler/bundler.git</code></p>
+
+    <p>This connects your local repo to the upstream repo at Github.</p>
+  </li>
+  <li>
+    <p>Install Bundler development dependencies</p>
+
+    <p><code class="highlighter-rouge">$ rake spec:deps</code></p>
+
+    <p>What is rake? <a href="http://rake.rubyforge.org/">http://rake.rubyforge.org/</a></p>
+  </li>
+  <li>
+    <p>Run the Bundler test suite</p>
+
+    <p><code class="highlighter-rouge">$ rake spec</code></p>
+
+    <p>This could take about 15 minutes.</p>
+  </li>
+</ol>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

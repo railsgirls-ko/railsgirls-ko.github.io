@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="basic-web-application">Basic Web Application</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em>
+The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<h2 id="get-to-know-the-tools">Get to know the tools</h2>
+
+<div class="indent">
+
+  <h3><i class="icon-text-editor">&nbsp;</i></h3>
+
+  <h3>Text Editor</h3>
+
+  <p><a href="http://www.sublimetext.com">Sublime Text</a>, <a href="http://www.activestate.com/komodo-edit">Komodo Edit</a>, Vim, Emacs, and Gedit are examples of text editors your can use for writing code and editing files.</p>
+
+  <h3><i class="icon-prompt">&nbsp;</i></h3>
+
+  <h3>Terminal (known as Command Prompt on Windows)</h3>
+  <p>Where you start the rails server and run commands.</p>
+
+  <h3><i class="icon-browser">&nbsp;</i></h3>
+
+  <h3>Web browser</h3>
+  <p>(Firefox, Safari, Chrome) for viewing your application.</p>
+
+  <h3>GitHub</h3>
+  <p><a href="">Slides - by Kevin Lyda @</a></p>
+
+</div>
+
+<h3 id="important">Important</h3>
+
+<p>It is important that you select the instructions specific to your operating system - the commands you need to run on a Windows computer are slightly different to Mac or Linux. If you’re having trouble check the Operating System switcher at the bottom of the commands.</p>
+
+<h2 id="creating-the-application"><em>1.</em>Creating the application</h2>
+
+<p>We’re going to create a new Rails app called <em>railsgirls-galway-2014</em>.</p>
+
+<p>First, let’s open a terminal:</p>
+
+<ul>
+  <li>Mac OS X: Open Spotlight, type <em>Terminal</em> and click the <em>Terminal</em> application.</li>
+  <li>Windows: Click Start and look for <em>Command Prompt</em>, then click <em>Command Prompt with Ruby and Rails</em>.</li>
+  <li>Linux (Ubuntu/Fedora): Search for <em>Terminal</em> on the dash and click <em>Terminal</em>.</li>
+</ul>
+
+<p>Next, type these commands in the terminal:</p>
+
+<div class="os-specific">
+  <div class="nix">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">mkdir projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify that a directory named <code>projects</code> was created by running the list command: <code>ls</code>. You should see the <code>projects</code> directory in the output. Now you want to change the directory you are currently in to the <code>projects</code> folder by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify you are now in an empty directory or folder by again running the <code>ls</code> command. Now you want to create a new app called <code>railsgirls</code> by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails new railsgirls-galway-2014</code></pre></figure>
+
+
+    <div>
+<p>This will create a new app in the folder <code>railsgirls</code>, so we again want to change the directory to be inside of our rails app by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rvm rubygems latest
+<span class="nb">cd </span>railsgirls-galway-2014</code></pre></figure>
+
+
+    <div>
+<p>If you run <code>ls</code> inside of the directory you should see folders such as <code>app</code> and <code>config</code>. You can then start the rails server by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails server</code></pre></figure>
+
+  </div>
+
+  <div class="win">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">mkdir projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify that a directory named <code>projects</code> was created by running the list command: <code>dir</code>. You should see the <code>projects</code> directory in the output. Now you want to change the directory you are currently in to the <code>projects</code> folder by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify you are now in an empty directory or folder by again running the <code>dir</code> command. Now you want to create a new app called <code>railsgirls</code> by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails new railsgirls-galway-2014</code></pre></figure>
+
+
+    <div>
+<p>This will create a new app in the folder <code>railsgirls</code>, so we again want to change the directory to be inside of our rails app by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>railsgirls</code></pre></figure>
+
+
+    <div>
+<p>If you run <code>dir</code> inside of the directory you should see folders such as <code>app</code> and <code>config</code>. You can then start the rails server by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails server</code></pre></figure>
+
+  </div>
+</div>
+
+<p>Open <a href="http://localhost:3000">http://localhost:3000</a> in your browser. You should see “Welcome aboard” page, which means that the generation of your new app worked correctly.</p>
+
+<p>Notice in this window the command prompt is not visible because you are now in the Rails server, the command prompt looks like this:</p>
+
+<div class="os-specific">
+  <div class="nix">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="err">$</span></code></pre></figure>
+
+  </div>
+  <div class="win">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">&gt;</code></pre></figure>
+
+  </div>
+</div>
+
+<p>When the command prompt is not visible you cannot execute new commands. If you try running <code class="highlighter-rouge">cd</code> or another command it will not work. To return to the normal command prompt:</p>
+
+<p>Hit <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to quit the server.</p>
+
+<p><strong>Coach:</strong> Explain what each command does.
+<a href="">What is a web application and a server - Slides by @</a>
+The skeleteon generated by “rails new” reflects the <a href="">Model-View-Controller - Slides by @</a> architectural pattern.</p>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

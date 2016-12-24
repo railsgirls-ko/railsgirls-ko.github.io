@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rails Girls on Engine Yard - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="put-your-app-online-with-engine-yard">Put Your App Online With Engine Yard</h1>
+
+<p><em>Created by Mary Jenn, <a href="https://twitter.com/mfjenn">@mfjenn</a></em></p>
+
+<h4 id="ensure-youre-using-postgres-for-your-database">Ensure You’re Using PostGres for Your Database</h4>
+
+<p>You’ll need to get your database to work on Engine Yard, which uses a different database than the Rails default. Please change the following in the Gemfile:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	gem 'sqlite3'
+</code></pre>
+</div>
+
+<p>to</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	group :development do
+		gem 'sqlite3'
+	end
+
+
+	group :production do
+		gem 'pg'
+	end
+</code></pre>
+</div>
+
+<p>Run <code class="highlighter-rouge">bundle install --without production</code> to setup your dependencies.</p>
+
+<h4 id="version-control-systems">Version Control Systems</h4>
+
+<p>You need to add your app to your Git repository. You can do this by running the following in the terminal:</p>
+
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>`git init`
+</code></pre>
+  </div>
+</blockquote>
+
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>`git add .`
+</code></pre>
+  </div>
+</blockquote>
+
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>`git commit -m "initial commit"`
+</code></pre>
+  </div>
+</blockquote>
+
+<p><strong>COACH</strong>: This would be a good time to talk about version control systems and git.</p>
+
+<h3 id="be-sure-to-have-a-rails-application-in-a-repository-on-github">Be Sure to Have a Rails Application in a Repository on Github</h3>
+
+<p>You will need to have a GitHub account and a repo we can pull an app from. Follow these directions on <a href="https://help.github.com/articles/create-a-repo">GitHub</a> to create a repo and push your app to it. If you do not have a working Rails application, you can fork <a href="https://github.com/engineyard/todo">Engine Yard’s sample todo app</a> to your own repo. A coach can walk you through this if you need help.</p>
+
+<h3 id="sign-up-for-a-free-trial-engine-yard-account">Sign up for a Free Trial Engine Yard Account</h3>
+
+<p>Go to Engine Yard’s <a href="https://www.engineyard.com/">Website</a> and click on “GET STARTED FREE” to sign up for your Free 500 Hour Trial. The sign up will send you a confirmation email, so go check your email, click on the link and sign in to your account. Click on the link under “Your available applications” that says “Engine Yard Cloud”. This will take you to your dashboard.</p>
+
+<h3 id="create-your-engine-yard-cloud-account">Create your Engine Yard Cloud account</h3>
+
+<ol>
+  <li>
+    <p>Choose a name for your account. We suggest picking something relevant to who you are, either as a developer, or as an organization if you will be having collaborators. Click the button “Start Trial”</p>
+  </li>
+  <li>
+    <p>Feel free to explore what is in the drop downs, but let’s go with the defaults for now, since they are in line with a basic Rails app.</p>
+  </li>
+  <li>
+    <p>In the box labeled “Git Repository URI”, paste the URI from your Github repo. Be sure to use the URI from the SSH version of your application. HINT: The format should be the same as the placeholder text on your Engine Yard application page (or like this: “git@github.com:mfjenn/blogotron.git”)</p>
+  </li>
+</ol>
+
+<h3 id="putting-your-deploy-key-in-place">Putting Your Deploy Key in Place</h3>
+
+<p>You should now be on a page that says “Allow Engine Yard access to private repository”.</p>
+
+<ol>
+  <li>Copy the block of text in the box and go to your GitHub settings page.</li>
+  <li>Go to the SSH page</li>
+  <li>Click on the button that says “add a key”</li>
+  <li>Paste the block of text from your Engine Yard page here. Save it</li>
+  <li>Go back to your Engine Yard Page and Click the button that says, “My deploy key is in place”.</li>
+</ol>
+
+<p><strong>COACH</strong>: Talk about the difference between private and public repos and when to use either.</p>
+
+<h3 id="creating-and-configuring-your-environment">Creating and Configuring Your Environment</h3>
+
+<p>Once you click the “My deploy key is in place” button, you will be taken to a page that says, “Create New Environment for (Your Account Name) App”. It is here where we will configure your application. Feel free to explore all the options in the drop downs, but let’s use the defaults for now. You do not need to set a domain name.
+*	Click the button that says, “Create Environment”.</p>
+
+<h4 id="environment-setup">Environment Setup</h4>
+
+<p>On this page, let’s select the staging configuration.
+*	Click “Boot This Configuration”. You will go to a new page where you see several status bars moving. Our Platform is provisioning your instances. We need to wait till these turn to green dots. This usually takes about 10 minutes, so does anyone need to take a break? It’s a good time to go grab some water or a coffee.</p>
+
+<p><strong>COACH</strong>: Talk about Staging vs. Production, and why it’s important to have replicas. Talk about what is a master &amp; Slave. How does Engine Yard’s Failover work? Why is that important?</p>
+
+<h4 id="deploying-your-application">Deploying Your Application</h4>
+
+<ol>
+  <li>Once all of the lights are green, click “Deploy”.</li>
+  <li>Once you see the phrase “YOUR NAME successfully deployed HEAD” you will know it has been deployed! Congratulations!</li>
+  <li>Click on the link that says “View your application” to visit your application online.</li>
+  <li>If you get a red notification that your deploy failed, we just have some debugging to do. Raise your hand and a coach can come over to to help.</li>
+</ol>
+
+<h4 id="stopping-your-instances-to-save-your-hours">Stopping Your Instances to Save Your Hours</h4>
+
+<p>Once you’ve got your app up &amp; running, be sure to click the “stop” button to stop the instances so that your don’t burn through all of your hours. You can always start them again.</p>
+
+<h3 id="additional-resources">Additional Resources</h3>
+<ul>
+  <li>
+    <p><a href="https://support.cloud.engineyard.com/entries/21009937-Video-Tutorial-Set-up-an-Account-and-Deploy-an-Application">A video tutorial</a></p>
+  </li>
+  <li>
+    <p><a href="https://support.cloud.engineyard.com/entries/20996751-Tutorial-How-to-Deploy-the-ToDo-Application-on-a-Trial-Account">Another Tutorial From the Engine Yard Site</a></p>
+  </li>
+</ul>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

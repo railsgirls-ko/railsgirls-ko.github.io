@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="version-control-with-git">Version Control with Git</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em>
+The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<p>Navigate to the root directory of the first app and initialize a new repository:</p>
+
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">      <span class="nv">$ </span>git init
+    </code></pre></figure>
+
+  </div>
+</div>
+
+<p>Before adding the project to the repository, let’s tell Git which files to ignore - because too frequently subject to changes - by listing them in the .gitignore file. The “rails new” command already create a .gitignore file but let’s extend it with the following.</p>
+
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Ignore other unneeded files.</span>
+database.yml
+<span class="c"># Ignore Rails documentation files</span>
+doc/
+<span class="c"># Ignore Vim and Emacs swap files</span>
+<span class="k">*</span>.swp
+<span class="k">*</span>~
+.project
+<span class="c"># Ignore (for OS X users) the .DS_Store directories created by the Mac Finder application</span>
+.DS_Store
+.idea
+.secret
+  </code></pre></figure>
+
+  </div>
+</div>
+
+<p>Add the changes (recursively adding every sub-directory, too).</p>
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add . 
+  </code></pre></figure>
+
+  </div>
+</div>
+
+<p>The “git add” command adds the project files to a staging area, which contains pending changes to your projectbu; you can see which files are in the staging area using the status command:</p>
+
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>git status
+  </code></pre></figure>
+
+  </div>
+</div>
+
+<p>Now commit the changes while justifying them with a message:</p>
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>git commit -m <span class="s2">"Initialize repository"</span>
+  </code></pre></figure>
+
+  </div>
+Git commits are local, recorded only on the machine on which the commits occur. You can view a list of all the commit messages with "git log" typing "q" to quit.
+</div>
+
+<p>Now we want our changes to be pushed from our local machine to a remote repository.
+<a href="http://github.com/new">Create a repository</a> called “railsgirls-galway-2014” and fill in the information. Do not to initialize the repository with a README file since “rails new” already created that automatically. 
+Push up your local changes to the remote repository as follows:</p>
+
+<div class="os-specific">
+  <div class="nix">
+    
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>git remote add origin https://github.com/&lt;username&gt;/railsgirls-galway-2014.git
+<span class="gp">$ </span>git push -u origin master
+  </code></pre></figure>
+
+  </div>
+The result is a page at GitHub (for instance, [here's mine](https://github.com/iammyr/railsgirls-galway-2014)) for our application repository, which provides nice rendering, sharing functionalities and statistics: take a look by yourself at https://github.com/<your username="">/railsgirls-galway-2014
+&lt;/div&gt;
+
+**Coach:** Explain the branch-edit-commit-merge workflow on GitHub: modify the README file to be more descriptive.
+([Slides by Myriam Leggieri @iammyr]())
+
+</your></div>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

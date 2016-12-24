@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Adding a back-end with Active Admin - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="adding-a-back-end-with-active-admin">Adding a back-end with Active Admin</h1>
+
+<p><em>Created by <a href="https://www.rasmuskjellberg.se">Rasmus Kjellberg</a></em></p>
+
+<p><strong>This guide assumes that you have already built a Rails Girls app by</strong> <a href="/app"><strong>following the app development guide</strong></a>.</p>
+
+<p>Active Admin is a Ruby on Rails plugin for generating administration style interfaces. It abstracts common business application patterns to make it simple for developers to implement beautiful and elegant interfaces with very little effort. You can read more about Active Admin <a href="http://activeadmin.info/">here</a>.</p>
+
+<h2 id="adding-the-active-admin-gem">Adding the “Active Admin” gem</h2>
+<p>Open up your <code class="highlighter-rouge">Gemfile</code> and add these lines</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'devise'</span>
+<span class="n">gem</span> <span class="s1">'activeadmin'</span><span class="p">,</span> <span class="ss">github: </span><span class="s1">'activeadmin'</span>
+<span class="n">gem</span> <span class="s1">'inherited_resources'</span><span class="p">,</span> <span class="ss">github: </span><span class="s1">'activeadmin/inherited_resources'</span></code></pre></figure>
+
+<p>and run</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle install</code></pre></figure>
+
+<p>to install the gems.</p>
+
+<p>After updating your bundle, run the installer</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>rails generate active_admin:install</code></pre></figure>
+
+<p>The installer creates an initializer used for configuring defaults used by Active Admin as well as a new folder at app/admin to put all your admin configurations.</p>
+
+<p>Migrate your db and start the server:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>rake db:migrate
+<span class="gp">$ </span>rails server</code></pre></figure>
+
+<h2 id="creating-your-first-admin-account">Creating your first admin account</h2>
+<p>Open up the Rails console and create your new user via the <code class="highlighter-rouge">AdminUser</code> model:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>rails console
+<span class="gp">irb(main):001:0&gt; </span>AdminUser.create<span class="o">(</span>:email <span class="o">=</span>&gt; <span class="s1">'admin@railsgirls.com'</span>, :password <span class="o">=</span>&gt; <span class="s1">'password123'</span>, :password_confirmation <span class="o">=</span>&gt; <span class="s1">'password123'</span><span class="o">)</span></code></pre></figure>
+
+<p>You should see something like:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># (0.3ms)  begin transaction</span>
+<span class="c"># SQL (0.4ms)  INSERT INTO "admin_users" ...</span>
+<span class="c"># (0.9ms)  commit transaction</span></code></pre></figure>
+
+<p>You can exit the console session with a simple <code class="highlighter-rouge">exit</code> command:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">irb(main):002:0&gt; </span><span class="nb">exit</span></code></pre></figure>
+
+<h2 id="accessing-your-admin-panel">Accessing your admin panel</h2>
+<p>Visit <a href="http://localhost:3000/admin">http://localhost:3000/admin</a> and log in using your created credentials.</p>
+
+<p>Voila! You’re on your brand new Active Admin dashboard.</p>
+
+<h2 id="add-ideas-to-back-end">Add “Ideas” to back-end</h2>
+<p>To register your <code class="highlighter-rouge">Idea</code> model with Active Admin, run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>rails generate active_admin:resource Idea</code></pre></figure>
+
+<p>Refresh your admin page and you will find <a href="http://localhost:3000/admin/ideas">Ideas</a> in the navigation.</p>
+
+<p><em>You can replace “Idea” with whatever model you like to register another model with Active Admin.</em></p>
+
+<h3 id="setting-up-strong-parameters">Setting up Strong Parameters</h3>
+<p>To prevent <strong>ActiveModel::ForbiddenAttributesError in Admin::IdeasController#update</strong> exception when updating a model you have to use the <a href="http://activeadmin.info/docs/2-resource-customization.html">permit_params</a> method to define which attributes may be changed:</p>
+
+<p>Open up your <code class="highlighter-rouge">app/admin/idea.rb</code> file and add <code class="highlighter-rouge">:name</code>, <code class="highlighter-rouge">:description</code> and <code class="highlighter-rouge">:picture</code> to <code class="highlighter-rouge">permit_params</code>:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ActiveAdmin</span><span class="p">.</span><span class="nf">register</span> <span class="no">Idea</span> <span class="k">do</span>
+  <span class="n">permit_params</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:picture</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="remove-new-edit-and-destroy-for-users">Remove “new”, “edit” and “destroy” for users.</h2>
+<p>If you don’t want your non-admin users to update your ideas you can easy fix this by updating your route file to only allow “index” and “show”. Add <code class="highlighter-rouge">only: [:show, :index]</code> to <code class="highlighter-rouge">config/route.rb</code>:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">resources</span> <span class="ss">:ideas</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:index</span><span class="p">]</span></code></pre></figure>
+
+<p><strong>Don’t forget to remove now broken links from your front-end code such as:</strong> <code class="highlighter-rouge">&lt;%= link_to 'New Idea', new_idea_path %&gt;</code>, <code class="highlighter-rouge">&lt;%= link_to 'Edit', edit_idea_path(idea) %&gt;</code>, <code class="highlighter-rouge">&lt;%= link_to 'Destroy', idea, method: :delete, data: { confirm: 'Are you sure?' } %&gt;</code></p>
+
+<p>Voila! You can now manage your Ideas from your new admin panel!</p>
+
+<h2 id="what-next">What next?</h2>
+
+<ul>
+  <li>Add another resource to admin such as Blog and Comments</li>
+</ul>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

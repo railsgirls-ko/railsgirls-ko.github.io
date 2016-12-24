@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="resource-rating">Resource Rating</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em>
+The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<p>What do we want our app to do? As a first thing, we would like to 
+* authenticate <strong>users</strong>
+* allow authenticated users to create a new touristic <strong>place</strong> description
+* allow authenticated users to <strong>comment</strong> those places
+* allow authenticated users to <strong>rate</strong> up to which extent those places are autism-friendly or not.</p>
+
+<p>We modeled and deployed comment, user and place resources, so far. Let’s now enable the rating for places.</p>
+
+<h2 id="rating-places">Rating Places</h2>
+
+<h2 id="step-0-add-letsrate-gem">Step 0: Add letsrate gem</h2>
+
+<p>Open up your <code class="highlighter-rouge">Gemfile</code> and add this line</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">"letsrate"</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">"git://github.com/iammyr/letsrate.git"</span></code></pre></figure>
+
+<p>and run</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install</code></pre></figure>
+
+<p>to install the gem. <strong>Also remember to restart the Rails server</strong>.</p>
+
+<h2 id="step-1-set-up-letsrate-in-your-app">Step 1: Set up letsrate in your app</h2>
+
+<p>Run the following command in the terminal. (we are assuming that we had already enabled authenticated users using the devise gem)</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails g letsrate user</code></pre></figure>
+
+<h2 id="step-2-apply-letsrate-to-your-resource">Step 2: Apply letsrate to your resource</h2>
+
+<p>You should add the letsrate_rateable function with its dimensions option, to the model of the resource you wish to rate, i.e., place. You can have multiple dimensions.</p>
+
+<p>In app/models/place.rb add</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">  letsrate_rateable <span class="s2">"autism_friendly"</span>, <span class="s2">"overall"</span></code></pre></figure>
+
+<p>Then you need to add a call letsrate_rater in the user model:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">  letsrate_rater</code></pre></figure>
+
+<h2 id="step-3-render-the-views">Step 3: Render the Views</h2>
+
+<p>There is a helper method which name is rating_for to add the star links. By default rating_for will display the average rating and accept the new rating value from authenticated user.</p>
+
+<p>Open app/views/places/show.html.erb and add</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">&lt;p&gt;
+&lt;strong&gt;Votes:&lt;/strong&gt;&lt;br /&gt;
+Autism_friendly : &lt;%<span class="o">=</span> rating_for @place, <span class="s2">"autism_friendly"</span> %&gt; &lt;br /&gt;
+Overall : &lt;%<span class="o">=</span> rating_for @place, <span class="s2">"overall"</span> %&gt;
+&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;
+&lt;strong&gt;Your votes:&lt;/strong&gt;&lt;br /&gt;
+Autism_friendly : &lt;%<span class="o">=</span> rating_for_user @place, current_user, <span class="s2">"autism_friendly"</span>, :star <span class="o">=</span>&gt; 7 %&gt;
+Overall : &lt;%<span class="o">=</span> rating_for_user @place, current_user, <span class="s2">"autism_friendly"</span>, :star <span class="o">=</span>&gt; 7 %&gt;
+&lt;/p&gt;
+&lt;hr /&gt;</code></pre></figure>
+
+<p>You can use the rating_for_user helper method to show the star rating for the user.</p>
+
+<p>That’s it! ^__^
+Try it out by restarting the server, add, commit and push on GitHub. If all it’s working then you can also deploy ;)</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Web Fundamentals Tutorial - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <p><em>Created by Tim McEwan, <a href="https://twitter.com/tjmcewan">@tjmcewan</a></em></p>
+
+<p>##Goal</p>
+
+<p>Have you ever thought about how information gets to and from your web browser? In this tutorial we’re going to look at how it all works by exploring HTTP.</p>
+
+<p>We’re going to use <a href="http://www.sinatrarb.com/"><strong>Sinatra</strong></a> as a tool to demonstrate some basic web principles. Sinatra is a small framework for creating web applications in Ruby with minimal effort. You can find a list of <a href="http://www.sinatrarb.com/wild.html">things built with Sinatra here</a>.</p>
+
+<p>Sinatra is different from Rails. They’re both frameworks for helping you to write web apps, but Sinatra contains fewer features and less magic.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>HTTP is used to send information between an application (like your Rails Girls app) and a browser.
+The basis of communication with HTTP is a request/response pair. Requests are sent by the browser to the server (e.g. your app) and the response is sent back from the server to your browser for a user to view.</p>
+
+<p>To make a request in a browser, you need to use a URL. A URL contains a lot of information about what information you are requesting so that the server can send you the correct response.</p>
+
+<p>A URL will contain;</p>
+
+<ul>
+  <li>The protocol you will communicate with</li>
+  <li>The domain that has the information you want</li>
+  <li>The path to the resource on that server</li>
+  <li>Optionally there might be parameters on the end of the url, as key/value pairs, containing extra information about the request</li>
+  <li>The // towards the beginning of the URL specifies that this request wants to make contact with a server.</li>
+  <li>The ? towards the end of the url signals the end of the file path, and the beginning of any optional parameters.</li>
+</ul>
+
+<p><img src="../images/url-breakdown.png" alt="Breakdown of a URL" /></p>
+
+<p>URLs reveal the resource you want, but the action that needs to be performed on that resource needs to be specified using HTTP verbs.</p>
+
+<p>The most common HTTP verbs are</p>
+
+<ul>
+  <li>GET: fetch an existing resource</li>
+  <li>POST: create a new resource. (Usually includes data needed to create the new resource)</li>
+  <li>PUT: update an existing resource.</li>
+  <li>DELETE: delete an existing resource.</li>
+</ul>
+
+<p>You would have used all these verbs on your Rails Girls app when you enabled it to show, create, edit and delete posts or notes.</p>
+
+<p>A request to a server needs to include both a URL and HTTP verb.</p>
+
+<p>In the following exercises you will build a small coffee listing application that uses a combination of resource folder names and HTTP verbs to show how browsers communicate with your application.</p>
+
+<p>Your app will look something like this in the browser:</p>
+
+<p><img src="../images/coffee-app.png" alt="Sinatra Coffee App" /></p>
+
+<h2 id="install-sinatra--hello-world"><em>0.</em>Install Sinatra » “Hello World”</h2>
+
+<p>Let’s start off by getting Sinatra running.</p>
+
+<p>In your terminal, install the gem:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">gem install sinatra
+gem install sinatra-contrib</code></pre></figure>
+
+<h2 id="hello-world"><em>1.</em>“Hello World”</h2>
+<p>Create a file called <code class="highlighter-rouge">app.rb</code> and paste the following into Sublime Text:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">"sinatra"</span>
+<span class="nb">require</span> <span class="s2">"sinatra/reloader"</span>
+
+<span class="n">get</span> <span class="s2">"/"</span> <span class="k">do</span>
+<span class="s2">"Hello world!"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>And back in your terminal, run this code with:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">ruby app.rb</code></pre></figure>
+
+<p>View your current site at: <a href="http://localhost:4567">http://localhost:4567</a></p>
+
+<p>The information showing now in your browser is the response to a GET request.</p>
+
+<p>When you enter http://localhost:4567 you’re sending a GET request to your Sinatra server.</p>
+
+<p>What you see in the browser is the response from your Sinatra server.</p>
+
+<p>Where you’ve written “/”, you are just specifying the root url, but you can create any path name you want.</p>
+
+<p>In the same file, try creating more pages to visit, using the same syntax as the block above. You can add as many pages as you like, and have them say whatever you want.</p>
+
+<p>e.g.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">get <span class="s2">"/page-name"</span> <span class="k">do</span> 
+ <span class="s2">"This is text on the page"</span>
+ end</code></pre></figure>
+
+<p>If you need to you can hit <kbd>Ctrl</kbd>+<kbd>C</kbd> in your command prompt to stop your app. (Just like for your Rails app!), however you don’t need to stop and start to see your changes.</p>
+
+<p>If you get stuck, make sure your app.rb looks like <a href="http://tjmcewan.github.io/coffeecalc/snippets/install_sinatra.rb.txt">this one</a>.</p>
+
+<h2 id="html-form--get-parameters"><em>3.</em> HTML Form » Get Parameters</h2>
+
+<p>To start listing coffees in our app, we’ll need an HTML form to send through which coffee we want and how much it costs.</p>
+
+<p>This means sending a request to the Sinatra server, including some information.</p>
+
+<p>To send information to the server, we can use a form.</p>
+
+<p>Replace your <code class="highlighter-rouge">get "/"</code> from above with this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s2">"/"</span> <span class="k">do</span>
+<span class="s2">"
+&lt;html&gt;
+&lt;body&gt;
+&lt;form action='/' method='get'&gt;
+What: &lt;input name='what'&gt;
+Cost: &lt;input name='cost'&gt;
+&lt;button type='submit'&gt;add coffee&lt;/button&gt;
+&lt;/form&gt;
+&lt;!-- coffees go here --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>For simplicity, this form sends the information to the same URL (“/”).</p>
+
+<p>Refresh your browser and you should see the form you just created.</p>
+
+<p>Now let’s see what the browser sends to the server when you submit the form. Put some text into the form and click the ‘add coffee’ button. Check out your Sinatra logs back in your terminal and you should see something like this:</p>
+
+<figure class="highlight"><pre><code class="language-http" data-lang="http"><span class="nf">GET</span> <span class="nn">/?what=flat+white&amp;cost=3.50</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span></code></pre></figure>
+
+<p><strong>Coach:</strong> Talk about where the parameter names come from and what the question mark is doing.</p>
+
+<p>If it’s not quite working, make sure your code looks like <a href="http://tjmcewan.github.io/coffeecalc/snippets/html_form.rb.txt">this code</a>.</p>
+
+<h2 id="web-inspector--request-headers"><em>4.</em>Web Inspector » Request Headers</h2>
+
+<p>In your browser, open up your web console. (For most browsers, this can be accessed by <em>right clicking something on the page and choosing “Inspect Element”</em>.) I recommend you use Chrome for this; if you are using Chrome, you’re looking for the ‘Network’ tab.</p>
+
+<p>Refresh your browser, then click on the ‘localhost’ line in the web inspector, then in the Headers tab, click ‘view source’. You should see something similar to this:</p>
+
+<figure class="highlight"><pre><code class="language-http" data-lang="http"><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:4567</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.70 Safari/537.36</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip,deflate,sdch</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.8</span></code></pre></figure>
+
+<p><strong>Coach:</strong> Explain what HTTP headers are and they mean.</p>
+
+<p>The important part to note is the first line, which shows you the HTTP verb and the URL it was called on.</p>
+
+<p><strong>Note:</strong> If Sinatra says it has “backup from WEBrick”, Ruby’s built-in webserver, then you may see multiple GET requests each time you refresh.  Only one request is actually being issued, you can safely ignore the other.</p>
+
+<h2 id="global-variable"><em>5.</em> Global Variable</h2>
+
+<p>So our form is sending the coffee information to our app, but we’re not doing anything with it yet. We should save the coffee information after it is sent to the server.</p>
+
+<p>For simplicity, let’s just store the coffee details in a variable. So that they’ll be available between requests, we’ll need to use a <a href="http://en.wikipedia.org/wiki/Global_variable"><strong>global</strong></a> variable. This is a drastically simplified version of what Rails calls the Model layer.</p>
+
+<p>Add this to your <code class="highlighter-rouge">app.rb</code> somewhere (convention says it should be near the top, under the <code class="highlighter-rouge">require</code> lines):</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vg">$coffees</span> <span class="o">=</span> <span class="p">[]</span></code></pre></figure>
+
+<p>This creates an empty array when your app first starts up.</p>
+
+<p><strong>Hint:</strong> This global variable won’t be around for very long - it will be reset to the empty array each time the server restarts.  Because we’re using Sinatra’s reloader, this will be every time you save your <code class="highlighter-rouge">app.rb</code> file.  Don’t worry though, it will suit our purposes nicely.</p>
+
+<h2 id="receiving-information--storing-coffees"><em>6.</em> Receiving information » Storing Coffees</h2>
+
+<p>Now you’ll need to get the information into that <code class="highlighter-rouge">$coffees</code> array when the request is received. When you fill in your form and click the submit button, remember that your information is put on the end of the URL, after the ?, to be sent back to the server.</p>
+
+<p>Sinatra grabs that information from the end of the URL and makes it available as a Hash called <code class="highlighter-rouge">params</code>. For example:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">coffee</span> <span class="o">=</span> <span class="s1">'flat white'</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span><span class="s1">'2'</span><span class="p">}</span></code></pre></figure>
+
+<p>You will need to write some code to take them from the params hash and add them to your  $coffees variable.</p>
+
+<p>Before you start, first replace <code class="highlighter-rouge">&lt;!-- coffees go here --&gt;</code> in your form with:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#{ $coffees.inspect }</span></code></pre></figure>
+
+<p>This will display the <code class="highlighter-rouge">$coffees</code> variable in the HTML in your browser so we can tell if coffees are being added to your $coffees variable (i.e. that your code is working).</p>
+
+<p><strong>Hint:</strong> 
+Your global variable is an array, so if you get stuck, try <a href="http://www.ruby-doc.org/core-2.1.0/Array.html#method-i-3C-3C">Ruby’s Array documentation </a> to find out how you can add information to an array.</p>
+
+<p>If you’re still stuck, <a href="http://tjmcewan.github.io/coffeecalc/snippets/store_coffees.rb.txt">check here</a>.</p>
+
+<p>If you’re storing your params correctly, you should be able to refresh the browser and see that a new hash gets added to the <code class="highlighter-rouge">$coffees</code> array each time.</p>
+
+<h2 id="tidy-up"><em>6.</em> Tidy Up</h2>
+
+<p>That big chunk of HTML in our <code class="highlighter-rouge">get</code> code is making it a bit hard to see what our app does. Let’s move it to its own method.</p>
+
+<p>Cut the HTML form out of your <code class="highlighter-rouge">get</code> code and paste it into a method called <code class="highlighter-rouge">template</code> (keep all your code in the same file). Like so:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">template</span>
+<span class="c1"># put your HTML form string here</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Now replace the form from your <code class="highlighter-rouge">get</code> code with a simple call to the template method, like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s2">"/"</span> <span class="k">do</span>
+<span class="vg">$coffees</span> <span class="o">&lt;&lt;</span> <span class="n">params</span>
+<span class="n">template</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This will also make it easier to re-use the form, should we ever need to.</p>
+
+<p><strong>Hint:</strong> <a href="http://tjmcewan.github.io/coffeecalc/snippets/template_method.rb.txt">Check here</a> if something went awry.</p>
+
+<h2 id="moving-beyond-get"><em>7.</em> Moving Beyond GET</h2>
+
+<p>As you saw in the store coffees section, if you refresh your browser, your app adds the information into the <code class="highlighter-rouge">$coffees</code> global variable repeatedly. This is because we’re storing the params from the URL each time our <code class="highlighter-rouge">get</code> code is requested.</p>
+
+<p>This is a good point to mention that <code class="highlighter-rouge">GET</code> requests should not do things that add information to our app - while it does work, like in this instance, it’s too easy for unintended side-effects to occur. In this case it’s better to use a <code class="highlighter-rouge">POST</code> request.</p>
+
+<p>Remember <code class="highlighter-rouge">GET</code> requests are asking to fetch a resource, whereas POST requests are asking to create a resource.</p>
+
+<p>So armed with that knowledge, let’s change our form’s method to <code class="highlighter-rouge">POST</code>:</p>
+
+<ul>
+  <li>Locate the section in the form that specifies the method as <code class="highlighter-rouge">get</code> and change it to <code class="highlighter-rouge">post</code>.</li>
+  <li>Now refresh your browser and submit a new coffee.</li>
+</ul>
+
+<p><strong>Uh oh!</strong> Welcome to Sinatra’s lovely error page, if you haven’t encountered it yet today. The message at the bottom should say this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Try</span> <span class="ss">this:
+</span><span class="n">post</span> <span class="s1">'/'</span> <span class="k">do</span>
+ <span class="s2">"Hello World"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This is Sinatra’s way of telling you that the route you requested doesn’t exist. You may also know this as HTTP error number 404: <em>page not found</em>.</p>
+
+<h2 id="add-post"><em>8.</em> Add Post</h2>
+
+<p>Let’s <em>add</em> our <code class="highlighter-rouge">post</code> code into Sinatra (don’t remove the get one!):</p>
+
+<ul>
+  <li>Grab the “Hello world” <code class="highlighter-rouge">post</code> code from Sinatra’s 404 page and put it after our <code class="highlighter-rouge">get</code>. (<strong>Hint:</strong> Do not copy from above; this page uses smart quotes &amp; will break your code.)</li>
+  <li>Replace the “Hello world” with a call to our <code class="highlighter-rouge">template</code> method. (<strong>Hint:</strong> Don’t remove the call to <code class="highlighter-rouge">template</code> from our <code class="highlighter-rouge">get</code> code.)</li>
+  <li>Now <em>move</em> the line that stores the coffee params over from the <code class="highlighter-rouge">get</code> code (ensure this goes <em>above</em> the call to <code class="highlighter-rouge">template</code>).</li>
+</ul>
+
+<p>As usual, you can check your progress <a href="http://tjmcewan.github.io/coffeecalc/snippets/get_vs_post.rb.txt">over here</a>.</p>
+
+<p>Now if you refresh the page after submitting a coffee, you should see a warning from your browser that it needs to resubmit the form in order to load the page:</p>
+
+<p><img src="../images/chrome-confirm-resubmission.png" alt="Chrome's confirm resubmission dialog" /></p>
+
+<p>You might have seen this sometimes when you’ve submitted forms online. Having this warning prompts us to think about the consequences of our refresh and we will probably avoid inadvertently adding the same coffee multiple times.</p>
+
+<p>Remember GET requests are asking to fetch a resource, whereas POST requests are asking to create a resource. If you refresh a page on a GET request, you are simply asking repeatedly to see the same page, which usually won’t be a problem.</p>
+
+<p>However, if you refresh a page on a POST request, this means you are resending the POST request, and could be creating a new resource each time you refresh. That’s why the browser gives you a warning before allowing you to do it.</p>
+
+<h2 id="add-a-redirect"><em>9.</em> Add a Redirect</h2>
+
+<p>In order to get around this form-resubmission problem, lets tell the browser to load a different page as soon as it receives the response to our <code class="highlighter-rouge">POST</code>.  We do this using a special HTTP response known as a “redirect”.</p>
+
+<p>Instead of the call to our <code class="highlighter-rouge">template</code> method, we can redirect the browser to another location.</p>
+
+<p>In Sinatra, it looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">redirect</span> <span class="s2">"/"</span></code></pre></figure>
+
+<p>Try first, then <a href="http://tjmcewan.github.io/coffeecalc/snippets/post_redirect.rb.txt">check it here</a>.</p>
+
+<p>This sends back a special redirect response (HTTP 303) with a <code class="highlighter-rouge">location</code> header that specifies where the browser should go:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">HTTP/1.1 303 See Other
+<span class="err">&lt;</span>…&gt;
+Location: http://localhost:4567/</code></pre></figure>
+
+<p>To see this in action, have a look in Chrome’s Web Inspector (Network tab) and send your app a coffee:</p>
+
+<p><img src="../images/chrome-post-redirect.png" alt="Chrome's network tab showing a post/redirect/get" /></p>
+
+<p>The first line shows the browser submitting the form via the <code class="highlighter-rouge">POST</code> request method. The response it receives is an HTTP 303, containing the <code class="highlighter-rouge">Location</code> header. It then issues a <code class="highlighter-rouge">GET</code> request for that location (which corresponds to our root URL, “/”) and renders the response it gets from there - which is our HTML template.</p>
+
+<p>Now you can refresh all you want and all you’re doing is requesting using <code class="highlighter-rouge">GET</code>, not <code class="highlighter-rouge">POST</code>. Your browser doesn’t have to submit the form any more to display that page.</p>
+
+<p>This is the end of the tutorial - you’ve done an excellent job!</p>
+
+<p>Thanks for playing!</p>
+
+<h2 id="additional-guides">Additional Guides</h2>
+<p>If you were fast and would like to continue on, you can try:</p>
+
+<ul>
+  <li><a href="/sinatra-html">rendering our coffee list in proper HTML</a>
+<strong>LUCY-TODO</strong></li>
+</ul>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

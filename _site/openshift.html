@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rails Girls on OpenShift - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="put-your-app-online-with-openshift">Put Your App Online With OpenShift</h1>
+
+<p><em>Created by Katie Miller, <a href="https://twitter.com/codemiller">@codemiller</a></em></p>
+
+<h3 id="get-openshift">Get OpenShift</h3>
+
+<p>OpenShift is a cloud computing Platform as a Service (PaaS) that makes it easy to deploy apps online. It is open source and written in Ruby.</p>
+
+<p>To get started <a href="https://www.openshift.com/app/account/new">create an OpenShift Online account</a>, which allows you to put three apps online for free. Once you are signed up, install the OpenShift RHC Client Tools by running these commands in a terminal and following the prompts:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">gem install rhc
+rhc setup</code></pre></figure>
+
+<p>The above instructions assume you installed Ruby using RVM or RailsInstaller. If you used another approach, there is more info about installing RHC for different set-ups in <a href="https://www.openshift.com/developers/rhc-client-tools-install">this guide</a> (you may need to do <code class="highlighter-rouge">sudo gem install rhc</code>).</p>
+
+<p><strong>COACH</strong>: Talk about the benefits of deploying to a PaaS such as OpenShift, as opposed to traditional servers. Discuss SSH and why we need to upload a public key to communicate securely.</p>
+
+<h3 id="preparing-your-app">Preparing your app</h3>
+
+<h4 id="create-openshift-application">Create OpenShift application</h4>
+
+<p>We are going to create an OpenShift Ruby application with a PostgreSQL database, using a sample OpenShift Rails application as our starting point. Before we do that, in your terminal change to the parent directory of the one containing your <code class="highlighter-rouge">railsgirls</code> code, probably called <code class="highlighter-rouge">projects</code>. The <code class="highlighter-rouge">cd</code> command below will take you there if you are currently in your <code class="highlighter-rouge">railsgirls</code> directory; if not, substitute another <code class="highlighter-rouge">cd</code> command.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd</span> ..
+<span class="nb">pwd</span></code></pre></figure>
+
+<p>The output from the <code class="highlighter-rouge">pwd</code> or ‘present working directory’ command should show you are now in the <code class="highlighter-rouge">projects</code> directory (or whatever your parent directory was called). To create the OpenShift app in the cloud and make a local copy of its contents, run the following command in your terminal.</p>
+
+<p><em>NB: This command is for those using Ruby 2.x and Rails 4. If you have installed Ruby 1.9.x, replace <code class="highlighter-rouge">ruby-2.0</code> in the command with <code class="highlighter-rouge">ruby-1.9</code>. For Rails 3, change the <code class="highlighter-rouge">--from-code</code> URL to <code class="highlighter-rouge">https://github.com/openshift/rails-example.git</code>.</em></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rhc app create openshiftapp ruby-2.0 postgresql-9.2 --from-code<span class="o">=</span>https://github.com/openshift/rails4-example.git</code></pre></figure>
+
+<p>If you see a message like <code class="highlighter-rouge">Are you sure you want to continue connecting (yes/no)?</code>, type <code class="highlighter-rouge">yes</code> and press enter.</p>
+
+<p>The terminal output should include a URL; open a browser window and go to the application URL to view the sample Rails application (the URL will have the form http://openshiftapp-<em>yourdomain</em>.rhcloud.com).</p>
+
+<p><strong>COACH</strong>: Explain what Git is and why we use version control systems.</p>
+
+<h4 id="add-version-control">Add version control</h4>
+
+<p>We now have a sample app running in the cloud, but we actually need only a few pieces from its codebase. Before we copy across the bits we need, we should put our Rails Girls app under version control with Git.</p>
+
+<p>Change back to your <code class="highlighter-rouge">railsgirls</code> app directory and initialize it as a Git repository with the following commands:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>railsgirls
+git init</code></pre></figure>
+
+<p>We don’t want the pictures uploaded during app development to be part of our repository, so run the following command to instruct Git to ignore them:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">"public/uploads"</span> &gt;&gt; .gitignore</code></pre></figure>
+
+<p>Add and commit all your app files to the Git repository with the following commands:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add --all
+git commit -m <span class="s2">"First commit of Ideas app"</span></code></pre></figure>
+
+<p><strong>COACH</strong>: Explain the Git commands used and .gitignore.</p>
+
+<h4 id="copy-sample-app-code">Copy sample app code</h4>
+
+<p>We need the <code class="highlighter-rouge">.openshift</code> directory and <code class="highlighter-rouge">config/database.yml</code> file from the sample application for our Rails app to run on OpenShift. Copy these from the <code class="highlighter-rouge">openshiftapp</code> directory to the <code class="highlighter-rouge">railsgirls</code> directory. You can use Windows Explorer or another graphical file system tool to do this if you like, or alternatively run the following commands from the <code class="highlighter-rouge">railsgirls</code> directory in your terminal:</p>
+
+<div class="os-specific">
+   <div class="nix">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">cp -r ../openshiftapp/.openshift .
+cp ../openshiftapp/config/database.yml config</code></pre></figure>
+
+  </div>
+
+  <div class="win">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">xcopy /e /i ..<span class="se">\o</span>penshiftapp<span class="se">\.</span>openshift .openshift
+xcopy /y ..<span class="se">\o</span>penshiftapp<span class="se">\c</span>onfig<span class="se">\d</span>atabase.yml config</code></pre></figure>
+
+  </div>
+</div>
+
+<p>Check that the copying has worked by looking in the <code class="highlighter-rouge">railsgirls</code> app directory. There should now be a subdirectory called <code class="highlighter-rouge">.openshift</code>. Open the file <code class="highlighter-rouge">config/database.yml</code>; it should now contain OpenShift environment variables such as <code class="highlighter-rouge">OPENSHIFT_APP_NAME</code>. If your <code class="highlighter-rouge">database.yml</code> file does not contain variables like this, try opening <code class="highlighter-rouge">.openshift/config/database.yml</code> or <code class="highlighter-rouge">openshiftapp/config/database.yml</code> in your editor and copying across the contents of the file.</p>
+
+<p>Add and commit the new and changed files in Git with the below commands.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add --all
+git commit -m <span class="s2">"Added OpenShift config"</span></code></pre></figure>
+
+<h4 id="change-database">Change database</h4>
+
+<p>The next step is to change our Rails Girls app database from SQLite to PostgreSQL. Open your application’s <code class="highlighter-rouge">Gemfile</code> and replace:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'sqlite3'</span></code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'sqlite3'</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="p">]</span>
+<span class="n">gem</span> <span class="s1">'pg'</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:production</span><span class="p">]</span></code></pre></figure>
+
+<p>Do a bundle to set up your dependencies:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install --without production</code></pre></figure>
+
+<p>On some platforms, this may generate platform-specific versions of your Gems that cause issues when you push your app to the cloud. To prevent this, open your <code class="highlighter-rouge">Gemfile.lock</code> file and check the versions of the ‘sqlite3’ and ‘pg’ Gems. If they have a platform-specific suffix, such as <code class="highlighter-rouge">-x86-mingw32</code>, remove this (eg. change <code class="highlighter-rouge">pg (0.16.0-x86-mingw32)</code> to <code class="highlighter-rouge">pg (0.16.0)</code> and <code class="highlighter-rouge">sqlite3 (1.3.8-x86-mingw32)</code> to <code class="highlighter-rouge">sqlite3 (1.3.8)</code>). Save and close the file, and run the above bundle command again before continuing.</p>
+
+<p>Add and commit your changes in Git:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add --all
+git commit -m <span class="s2">"Changed production database to PostgreSQL"</span></code></pre></figure>
+
+<p><strong>COACH</strong>: Talk about relational databases and the differences between SQLite and PostgreSQL.</p>
+
+<h3 id="deploy-app-to-openshift">Deploy app to OpenShift</h3>
+
+<p>We are now ready to deploy the Rails Girls app to OpenShift. We need to tell our Git repository where to push the code. To get the location of your OpenShift code repository, run the following command, and copy the Git URL from the output.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rhc app show openshiftapp</code></pre></figure>
+
+<p>Now run the following commands, replacing the SSH string with your Git URL. We are using ‘-f’ for force here because we are happy to wipe away the history of the current OpenShift repository, which contains the sample Rails app. When you are pushing future changes, you can just use ‘git push’.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git remote add openshift ssh://0123456789abcdef01234567@openshiftapp-yourdomain.rhcloud.com/~/git/openshiftapp.git/
+git push -f --set-upstream openshift master</code></pre></figure>
+
+<p>Refresh the app in your browser to see the result.</p>
+
+<p><strong>COACH</strong>: Talk about Git remotes.</p>
+
+<h3 id="extra-credit">Extra credit</h3>
+
+<p>Congratulations - your Rails application is now online for the whole world to admire. The following sections explain optional further steps you can take to improve and share your app.</p>
+
+<h4 id="persist-uploaded-images">Persist uploaded images</h4>
+
+<p>The app should be looking pretty good now, but there is an issue lurking because of the ephemeral nature of the deployment. When we push a new version of the application, anything stored within OpenShift’s copy of the repo will be wiped to make way for the new files. This includes the images uploaded by users. To fix this, we can store these files in a persistent directory on OpenShift instead. The filepath of the location we need is stored in an environment variable.</p>
+
+<p><strong>COACH</strong>: Explain the motivation for using environment variables.</p>
+
+<p>The directory where uploaded pictures are currently stored is within the app repository, so it will be deleted when we rebuild. To switch the uploads directory to one that will persist, open <code class="highlighter-rouge">app/uploaders/picture_uploader.rb</code> and replace</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">store_dir</span>
+  <span class="s2">"uploads/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">underscore</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">mounted_as</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">store_dir</span>
+  <span class="n">prefix</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'OPENSHIFT_DATA_DIR'</span><span class="p">]</span> <span class="p">?</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'OPENSHIFT_DATA_DIR'</span><span class="p">]</span><span class="si">}</span><span class="s2">/"</span> <span class="p">:</span> <span class="s2">""</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">uploads/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">underscore</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">mounted_as</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">url</span>
+  <span class="k">return</span> <span class="s2">"/uploads/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">underscore</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">mounted_as</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">model</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="no">File</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="nf">path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'OPENSHIFT_DATA_DIR'</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">file</span>
+  <span class="k">super</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Now uploaded images will be stored in a persistent directory, but they will still be available through the same URL as what we were using previously. To make this work, we also need to add a symbolic link on the filesystem from the repository location to the real storage location. To do this, open <code class="highlighter-rouge">.openshift/action_hooks/build</code> and add the following code:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$OPENSHIFT_DATA_DIR</span>/uploads
+ln -sf <span class="nv">$OPENSHIFT_DATA_DIR</span>/uploads <span class="nv">$OPENSHIFT_REPO_DIR</span>/public/uploads</code></pre></figure>
+
+<p>This action hook code will run every time the OpenShift app is built, so the link between the directories will always be there when it’s needed.</p>
+
+<p>Commit your changes and push them to the cloud:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add --all
+git commit -m <span class="s2">"Added OpenShift environment variables"</span>
+git push</code></pre></figure>
+
+<p>The images you uploaded before making this change will no longer display, but anything uploaded now will stick around between app rebuilds.</p>
+
+<p><strong>COACH</strong>: Explain symbolic links.</p>
+
+<h4 id="push-code-to-github">Push code to GitHub</h4>
+
+<p>Now that your application is under source control with Git, you may also wish to share a copy with others on a Git repository website such as GitHub. To push your code to a GitHub repository, <a href="https://github.com/new">create a repository</a> on GitHub and copy the HTTPS string (something like <em>https://github.com/username/reponame.git</em>).</p>
+
+<p>Navigate to your OpenShift app repository in the terminal and enter the following commands, replacing the HTTPS location with the string you copied:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git remote add github https://github.com/username/reponame.git
+git push github master</code></pre></figure>
+
+<p>The ‘master’ branch of the local copy of your repository will be pushed to GitHub. Go to the GitHub website to check it out.</p>
+
+<p><strong>COACH</strong>: Talk about Git branches and the benefits of open source code.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Your Rails app is now running in the cloud on <a href="https://www.openshift.com/developers">OpenShift</a>. You can push whatever other changes you like and share the URL to show off your app to your friends.</p>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>
