@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="rails-girls-touristic-autism-friendly-spots-app-tutorial">Rails Girls Touristic Autism-friendly Spots App Tutorial</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em></p>
+
+<p>This guide merges, adapts and extends some of the basic RailsGirls guides <strong>for the scenario</strong>: description, displaying and commenting touristic places and rate them with respect to their autism-friendliness. This application was requested by the <a href="http://www.galwayautismpartnership.com/">Galway Autism Partnership</a> to support autistic adults during their travelings.</p>
+
+<p>The extension comprises of the following <strong>new features</strong>:</p>
+
+<ul>
+  <li>TDD using Guide</li>
+  <li>Resource Rating</li>
+  <li>Authenticated User (via devise) permission setting</li>
+</ul>
+
+<p>The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<h3 id="installationinstall"><a href="/install"><em>0.</em>Installation</a></h3>
+
+<p><strong>Make sure you have Rails and Git installed.</strong> <a href="/install"><strong>Follow the installation guide</strong></a>, the <a href="http://www.git-scm.com/book/en/Getting-Started-Installing-Git"><strong>Installing Git section of Pro Git</strong></a> to get set up. Then configure GitHub by typing the following in your terminal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>git config --global user.name <span class="s2">"Your Name"</span>
+<span class="gp">$ </span>git config --global user.email your.email@example.com</code></pre></figure>
+
+<p>one-time setup steps for GitHub.</p>
+
+<p>Sign up for a <a href="https://github.com/signup/free">free GitHub account</a> if you don’t have one already.</p>
+
+<h3 id="basic-web-applicationtouristic-autismbasic-app"><a href="/touristic-autism_basic-app"><em>1.</em>Basic Web Application</a></h3>
+
+<h3 id="version-control-with-gittouristic-autismgit"><a href="/touristic-autism_git"><em>2.</em>Version control with Git</a></h3>
+
+<h3 id="resource-modelingtouristic-autismresource-modeling"><a href="/touristic-autism_resource-modeling"><em>3.</em>Resource Modeling</a></h3>
+
+<h3 id="resource-ratingtouristic-autismresource-rating"><a href="/touristic-autism_resource-rating"><em>4.</em>Resource Rating</a></h3>
+
+<h3 id="designtouristic-autismdesign"><a href="/touristic-autism_design"><em>5.</em>Design</a></h3>
+
+<h3 id="image-upload-and-thumbnailstouristic-autismimage-upload"><a href="/touristic-autism_image-upload"><em>6.</em>Image upload and Thumbnails</a></h3>
+
+<p><strong>Optional - for advanced Rails Girls:</strong></p>
+
+<h3 id="continuous-deploymenttouristic-autismcontinuous-deployment"><a href="/touristic-autism_continuous-deployment"><em>7.</em>Continuous Deployment</a></h3>
+
+<h3 id="continuous-testing-and-integrationtouristic-autismstatic-pages-tdd"><a href="/touristic-autism_static-pages-tdd"><em>8.</em>Continuous Testing and Integration</a></h3>
+
+<h2 id="additional-guides">Additional Guides</h2>
+
+<ul>
+  <li>Guide 0: <a href="http://www.pragtob.info/rails-beginner-cheatsheet/">Handy cheatsheet for Ruby, Rails, console etc.</a></li>
+  <li>Guide 1: <a href="/heroku">Put your app online with Heroku by Terence Lee</a> / <a href="/openshift">Put your app online with OpenShift by Katie Miller</a> / <a href="/anynines">Put your app online with anynines</a> / <a href="/trucker">Put your app online with Trucker.io</a></li>
+  <li>Guide 2: <a href="/gravatar">Adding profile pictures with Gravatar</a></li>
+  <li>Guide 3: <a href="https://github.com/lbain/railsgirls">Go through additional explanations for the App by Lucy Bain</a></li>
+</ul>
+
+<h1 id="appendices">Appendices</h1>
+
+<h2 id="undoing-things">Undoing things</h2>
+
+<p>Rails has some facilities to help you recover from mistakes.</p>
+
+<p>For instance, you may decide to change the name of a controller. Since, when generating a controller, Rails creates many more files than the controller file itself, undoing the generation means removing a whole set of files. In Rails, this can be accomplished with rails destroy. In particular, these two commands cancel each other out:</p>
+
+<p>$ rails generate controller FooBars baz quux
+  $ rails destroy  controller FooBars baz quux</p>
+
+<p>Similarly, after we generate a model as follows:</p>
+
+<p>$ rails generate model Foo bar:string baz:integer</p>
+
+<p>This can be undone using</p>
+
+<p>$ rails destroy model Foo</p>
+
+<p>Migrations change the state of the database using</p>
+
+<p>$ rake db:migrate</p>
+
+<p>We can undo a single migration step using</p>
+
+<p>$ rake db:rollback</p>
+
+<p>To go all the way back to the beginning, we can use</p>
+
+<p>$ rake db:migrate VERSION=0</p>
+
+<p>As you might guess, substituting any other number for 0 migrates to that version number, where the version numbers come from listing the migrations sequentially.</p>
+
+<p>To drop a table from the db enter</p>
+
+<p>$ rails console</p>
+
+<p>Then just type:</p>
+
+<blockquote>
+  <blockquote>
+    <p>ActiveRecord::Migration.drop_table(:<table-name>)</table-name></p>
+  </blockquote>
+</blockquote>
+
+<p>You can browse directly the database (if sqlite3 type “.quit” to exit afterwards) by typing</p>
+
+<p>$ rails db</p>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

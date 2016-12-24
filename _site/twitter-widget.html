@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Twitter widget - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="twitter-widget">Twitter widget</h1>
+
+<p><em>Written by Asta Bevainyte, <a href="https://twitter.com/astux7">@astux7</a></em></p>
+
+<p>This exercise is intended to teach how to use twitter widget and how to add it to the <a href="http://localhost:3000/pages/info">http://localhost:3000/pages/info</a></p>
+
+<p>Where is 2 ways to do it, if you want to do it quick just adding a prepared code, go to paragraph 2.</p>
+
+<p><strong>Coach</strong> explain what is widget.</p>
+
+<ol>
+  <li>Twitter widget configuration</li>
+</ol>
+
+<ul>
+  <li>
+    <p>Login to <a href="https://twitter.com/">Twitter</a></p>
+  </li>
+  <li>
+    <p>Go to <a href="https://publish.twitter.com/#">https://publish.twitter.com/#</a></p>
+  </li>
+  <li>
+    <p>Select what you would like to embed, .i.e your <em>profile</em> then the link should look like (https://twitter.com/_your_twitter_username)</p>
+  </li>
+  <li>
+    <p>Select display options between ‘Embedded Timeline’ or ‘Twitter Buttons’</p>
+  </li>
+  <li>
+    <p>Copy code</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Add Twitter generated code to your info page</li>
+</ol>
+
+<ul>
+  <li>You have Twitter coppied code which looks like this if you selected <code class="highlighter-rouge">profile</code> and <code class="highlighter-rouge">embedded timeline</code> options (<em>_your_twitter_username</em> - you need to change to your twitter name)</li>
+</ul>
+
+<p><code class="highlighter-rouge">
+    &lt;a class="twitter-timeline" href="https://twitter.com/_your_twitter_username"&gt;Tweets by _your_twitter_username&lt;/a&gt; &lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+ </code></p>
+
+<ul>
+  <li>
+    <p>Add this code to app/views/pages/info.html.erb at the end of the file</p>
+  </li>
+  <li>
+    <p>Save and run <code class="highlighter-rouge">rails server</code></p>
+  </li>
+  <li>
+    <p>Open your browser and go to <a href="http://localhost:3000/pages/info">http://localhost:3000/pages/info</a> and check your Twitter profile</p>
+  </li>
+</ul>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

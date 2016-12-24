@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Touristic Autism-friendly Spots App - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="design">Design</h1>
+
+<p><em>Created by Myriam Leggieri, <a href="https://twitter.com/iammyr">@iammyr</a></em>
+<em>for <a href="https://github.com/RailsGirlsGalway">Rails Girls Galway</a></em>
+The basic guides that have been merged and adapted are the <a href="http://www.railstutorial.org/book">Ruby on Rails Tutorial</a>, the <a href="http://guides.railsgirls.com/app/">basic RailsGirls app</a> and the tutorials for <a href="http://guides.railsgirls.com/thumbnails">creating thumbnails</a>, <a href="http://guides.railsgirls.com/devise/">authenticating users</a>, <a href="http://guides.railsgirls.com/design">adding design</a>, <a href="http://guides.railsgirls.com/openshift/">deploying to OpenShift</a> and <a href="http://guides.railsgirls.com/commenting">adding comments</a>.</p>
+
+<p><strong>Coach:</strong> Talk about the relationship between HTML and Rails. What part of views is HTML and what is Embedded Ruby (ERB)? What is MVC and how does this relate to it? (Models and controllers are responsible for generating the HTML views.)</p>
+
+<p>The app doesn’t look very nice yet. Let’s do something about that. We’ll use the Twitter Bootstrap project to give us nicer styling really easily.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/layouts/application.html.erb</code> in your text editor and above the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="ss">media: </span><span class="s2">"all"</span><span class="p">,</span> <span class="s2">"data-turbolinks-track"</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//railsgirls.com/assets/bootstrap.css"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//railsgirls.com/assets/bootstrap-theme.css"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<p>and replace</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>Let’s also add a navigation bar and footer to the layout. In the same file, above <code class="highlighter-rouge">&lt;div class="container"&gt;</code> add</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navbar navbar-default navbar-fixed-top"</span> <span class="na">role=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-header"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">class=</span><span class="s">"navbar-toggle"</span> <span class="na">data-toggle=</span><span class="s">"collapse"</span> <span class="na">data-target=</span><span class="s">".navbar-collapse"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"sr-only"</span><span class="nt">&gt;</span>Toggle navigation<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"navbar-brand"</span> <span class="na">href=</span><span class="s">"/"</span><span class="nt">&gt;</span>The Places app<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collapse navbar-collapse"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav navbar-nav"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/places"</span><span class="nt">&gt;</span>Places<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/nav&gt;</span></code></pre></figure>
+
+<p>and before <code class="highlighter-rouge">&lt;/body&gt;</code> add</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;footer&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    Rails Girls Galway 2014
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/footer&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"//railsgirls.com/assets/bootstrap.js"</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></figure>
+
+<p>Now let’s also change the styling of the places table. Open <code class="highlighter-rouge">app/assets/stylesheets/application.css</code> and at the bottom add</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span> <span class="nl">padding-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">footer</span> <span class="p">{</span> <span class="nl">margin-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="o">,</span> <span class="nt">td</span><span class="o">,</span> <span class="nt">th</span> <span class="p">{</span> <span class="nl">vertical-align</span><span class="p">:</span> <span class="nb">middle</span><span class="p">;</span> <span class="nl">border</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">th</span> <span class="p">{</span> <span class="nl">border-bottom</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#DDD</span><span class="p">;</span> <span class="p">}</span></code></pre></figure>
+
+<p>Now make sure you saved your files and refresh the browser to see what was changed. You can also change the HTML &amp; CSS further.</p>
+
+<p>In case your Terminal shows you an error message that <em>sort of</em> implies there is something wrong with your JavaScript or CoffeeScript, install <a href="http://nodejs.org/download/">nodejs</a>. This issue should not appear when you’ve used the RailsInstaller (but when you’ve installed Rails via <code class="highlighter-rouge">gem install rails</code>).</p>
+
+<p><strong>Coach:</strong> Talk a little about CSS and layouts.</p>
+
+<p>1.Design your header</p>
+
+<ul>
+  <li>
+    <p>put the following code to the bottom of <code class="highlighter-rouge">app/assets/stylesheets/application.css</code>:</p>
+
+    <p><code class="highlighter-rouge">
+  .navbar {
+      min-height: 38px;
+    background-color: #f55e55;
+  }
+ </code></p>
+
+    <p>Now refresh the page and check the changes. You can try change the
+  color or font of the header. You can check the color reference
+  from <a href="http://color.uisdc.com/">http://color.uisdc.com/</a>.</p>
+
+    <p>**Coach: ** talk about the property <code class="highlighter-rouge">display</code>, inline and block element.</p>
+  </li>
+  <li>
+    <p>Then put these lines at the bottom：</p>
+
+    <p><code class="highlighter-rouge">
+  .navbar a.brand { font-size: 18px; }
+  .navbar a.brand:hover {
+   color: #fff;
+   background-color: transparent;
+   text-decoration: none;
+  }
+ </code></p>
+
+    <p>**Coach: ** explain the 4 states of a link</p>
+  </li>
+</ul>
+
+<p>2.Design your table</p>
+
+<ul>
+  <li>
+    <p>We simply use the twitter <a href="http://getbootstrap.com/">Bootstrap</a> to
+polish our table。find this line from
+app/views/places/index.html.erb and replace:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>&lt;table&gt;
+</code></pre>
+    </div>
+
+    <p>with</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>&lt;table class="table"&gt;
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Modify size of the picture using the following lines</p>
+
+    <p><code class="highlighter-rouge">
+  &lt;%= image_tag(idea.picture_url, :width =&gt; 600) if idea.picture.present? %&gt;
+ </code></p>
+
+    <p>try to change the width and see what’s gonna happen</p>
+  </li>
+  <li>
+    <p>add the following lines to the bottom of file app/assets/stylesheets/places.css.scss:</p>
+  </li>
+</ul>
+
+<p><code class="highlighter-rouge">
+  .container a:hover {
+    color: #f55e55;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0);
+  }
+ </code></p>
+
+<ul>
+  <li>try add some background style with property <code class="highlighter-rouge">background-image</code>,
+reference to
+<a href="http://subtlepatterns.com/">http://subtlepatterns.com/</a> for some patterns.</li>
+</ul>
+
+<p>3.add style to footer</p>
+
+<ul>
+  <li>
+    <p>add the lines to bottom of  app/assets/stylesheets/application.css:</p>
+
+    <p><code class="highlighter-rouge">
+  footer {
+    background-color: #ebebeb;
+    padding: 30px 0;
+  }
+ </code></p>
+
+    <p>try put more things into <code class="highlighter-rouge">footer</code>, then adjust it’s position.</p>
+  </li>
+</ul>
+
+<p>4.add style to button</p>
+
+<ul>
+  <li>open
+<a href="http://localhost:3000/places/new">http://localhost:3000/places/new</a>
+and find the <code class="highlighter-rouge">Create Place</code> button.</li>
+</ul>
+
+<p>add these lines to app/assets/stylesheets/places.css.scss</p>
+
+<p><code class="highlighter-rouge">
+   .container input[type="submit"] {
+      height: 30px;
+      font-size: 13px;
+      background-color: #f55e55;
+      border: none;
+      color: #fff;
+    }
+  </code></p>
+
+<p><strong>Coach</strong> explain how to use <code class="highlighter-rouge">border</code> in css, try modify the style
+     of button like round the corner, add shadow or color etc.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/layouts/application.html.erb</code> in your text editor and replace the line</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"http://railsgirls.com/assets/bootstrap.css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>Open <code class="highlighter-rouge">app/assets/stylesheets/application.css</code>, replace the line</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">body { padding-top: 100px; }</code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">body { padding-top: 60px; }</code></pre></figure>
+
+<p>Finally, delete the file <code class="highlighter-rouge">app/assets/stylesheets/scaffolds.css.scss</code> because we don’t really need the default style generated by Rails.</p>
+
+<p>Now refresh the page at <a href="http://localhost:3000/places">http://localhost:3000/places</a>. You will not find much change but it’s good preparation for the following steps.</p>
+
+<p>Considering “place” is the most important object in your app, we are going to put the “New Place” button on the navigation bar to make it always available.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/layouts/application.html.erb</code>, under the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/places"</span><span class="nt">&gt;</span>Places<span class="nt">&lt;/a&gt;&lt;/li&gt;</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;li</span> <span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New Place'</span><span class="p">,</span> <span class="n">new_place_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span></code></pre></figure>
+
+<p>Now it’s time to make the place list page look professional. For that, we are going to replace the table layout with a div layout.</p>
+
+<p><strong>Coach:</strong> Talk a little about table vs div.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/places/index.html.erb</code> in your text editor and replace the table with</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="vi">@places</span><span class="p">.</span><span class="nf">in_groups_of</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">group</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">group</span><span class="p">.</span><span class="nf">compact</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">place</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"span4"</span><span class="nt">&gt;</span>
+
+
+       <span class="cp">&lt;%=</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">place</span><span class="p">.</span><span class="nf">picture_url</span><span class="p">,</span> <span class="ss">:width</span> <span class="o">=&gt;</span> <span class="s1">'20%'</span><span class="p">)</span> <span class="k">if</span> <span class="n">place</span><span class="p">.</span><span class="nf">picture</span><span class="p">.</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;h4&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">place</span><span class="p">.</span><span class="nf">name</span><span class="p">,</span> <span class="n">place</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h4&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">description</span> <span class="cp">%&gt;</span>
+
+
+  <span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">address</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">latitude</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">longitude</span> <span class="cp">%&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">place</span><span class="p">.</span><span class="nf">user_id</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Show'</span><span class="p">,</span> <span class="n">place</span> <span class="cp">%&gt;</span> |
+
+ <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+	  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">id</span> <span class="o">==</span> <span class="n">place</span><span class="p">.</span><span class="nf">user_id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/strong&gt;</span>.
+
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_place_path</span><span class="p">(</span><span class="n">place</span><span class="p">)</span> <span class="cp">%&gt;</span> |
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Destroy'</span><span class="p">,</span> <span class="n">place</span><span class="p">,</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s1">'Are you sure?'</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+
+
+	    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+	<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+      <span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p><strong>Coach:</strong> Explain what the new code means line by line, and talk a little about Bootstrap 12 grids layout.</p>
+
+<p>Refresh it! We get a nice looking idea list. Click the “New Idea” button, and create more ideas with real text and pretty pictures - the page will look much better with content. There is a principle of contemporary web design: content is the best decoration.</p>
+
+<p>Click the title of a place, and you will be brought to the details page of the place. Now it is still scaffold generated by Rails, so let’s make it better.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/places/show.html.erb</code> in your text editor and replace all lines with</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;h3&gt;</span>Places created<span class="nt">&lt;/h3&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"span9"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">image_tag</span><span class="p">(</span><span class="vi">@place</span><span class="p">.</span><span class="nf">picture_url</span><span class="p">,</span> <span class="ss">:width</span> <span class="o">=&gt;</span> <span class="s2">"100%"</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">picture</span><span class="p">.</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"span3"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Name: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>User Rating as Autism-friendly: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="n">rating_for</span> <span class="vi">@place</span><span class="p">,</span> <span class="s2">"autism_friendly"</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>User Overall Rating: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="n">rating_for</span> <span class="vi">@place</span><span class="p">,</span> <span class="s2">"overall"</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Your <span class="nt">&lt;b&gt;</span>Vote as Autism-friendly: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="n">rating_for_user</span> <span class="vi">@place</span><span class="p">,</span> <span class="n">current_user</span><span class="p">,</span> <span class="s2">"autism_friendly"</span><span class="p">,</span> <span class="ss">:star</span> <span class="o">=&gt;</span> <span class="mi">7</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Your <span class="nt">&lt;b&gt;</span>Overall Vote: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="n">rating_for_user</span> <span class="vi">@place</span><span class="p">,</span> <span class="n">current_user</span><span class="p">,</span> <span class="s2">"autism_friendly"</span><span class="p">,</span> <span class="ss">:star</span> <span class="o">=&gt;</span> <span class="mi">7</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Description: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">description</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Address: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">address</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Latitude: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">latitude</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Longitude: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">longitude</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;b&gt;</span>Creator ID: <span class="nt">&lt;/b&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@place</span><span class="p">.</span><span class="nf">user_id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+  <span class="nt">&lt;p&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_place_path</span><span class="p">(</span><span class="vi">@place</span><span class="p">)</span> <span class="cp">%&gt;</span> |
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Back'</span><span class="p">,</span> <span class="n">places_path</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;h3&gt;</span>Comments<span class="nt">&lt;/h3&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@comments</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;strong&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">user_id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/strong&gt;</span>
+    <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="p">.</span><span class="nf">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+	  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">id</span> <span class="o">==</span> <span class="n">comment</span><span class="p">.</span><span class="nf">user_id</span> <span class="cp">%&gt;</span>
+
+    <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Delete'</span><span class="p">,</span> <span class="n">comment_path</span><span class="p">(</span><span class="n">comment</span><span class="p">),</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span> <span class="ss">confirm: </span><span class="s1">'Are you sure?'</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+	<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'comments/form'</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Continue experimenting with Design changes! ;)</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

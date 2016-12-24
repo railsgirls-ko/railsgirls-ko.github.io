@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test Driven Development - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="test-driven-development">Test Driven Development</h1>
+
+<p><em>Written by Gregory McIntyre, <a href="https://twitter.com/gregmcintyre">@gregmcintyre</a></em></p>
+
+<p>This exercise is intended to teach you what we’re talking about when we say
+<em>Test Driven Development</em> (TDD).</p>
+
+<h2 id="background-information">Background information</h2>
+
+<p><strong>Roman Numerals</strong></p>
+
+<p>If you are not already familiar with Roman numerals, please read up
+on <a href="http://www.onlineconversion.com/roman_numerals_advanced.htm">how Roman numerals work</a> before continuing.</p>
+
+<p>In summary, here are some examples of how Roman people wrote numbers:</p>
+
+<style>
+.roman-table th,
+.roman-table td { padding: 0 1rem; }
+.roman-table thead tr { border-bottom: 1px solid black; }
+.roman-table tr:nth-child(even) td { background-color: #eee; }
+</style>
+
+<table class="roman-table">
+  <thead>
+    <tr>
+      <th>Hindu-Arabic</th>
+      <th>Roman</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><tt>I</tt></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><tt>IIII</tt> (or <tt>IV</tt>)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><tt>V</tt></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><tt>VI</tt></td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><tt>VII</tt></td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td><tt>VIIII</tt> (or <tt>IX</tt>)</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><tt>X</tt></td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td><tt>L</tt></td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td><tt>C</tt></td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td><tt>D</tt></td>
+    </tr>
+    <tr>
+      <td>1000</td>
+      <td><tt>M</tt></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We are going to write a program that takes an integer value in the left column
+and calculates the equivalent string value in the right column. If we finish
+that, we will then make it work with the <em>subtractive digits</em> like <em>IV</em>.</p>
+
+<p><strong>Guide for working in a group</strong></p>
+
+<p>We encourage doing this exercise in a group of 2-4 people. The rules that
+govern how this works are very similar to how programmers do <em>pair programming</em>
+and this exercise is also intended to give you some exposure to that practice
+also.</p>
+
+<ul>
+  <li>Each group has one <strong>hot seat</strong> with laptop and <em>Sublime Text</em> ready.</li>
+  <li>Everybody else should <strong>close their laptops</strong> and sit around the hot seat chair.</li>
+  <li>You will all regularly stand up and <strong>rotates chairs</strong> so the next person is
+in the hot seat. The steps below explain when to do that.</li>
+  <li>Pick somebody to start in the hot seat. That person should follow all the
+steps until swapping seats is mentioned.</li>
+</ul>
+
+<p><strong>Coach:</strong> Explain how pair programming can be useful.</p>
+
+<h2 id="initial-code"><em>1.</em> Initial code</h2>
+
+<p>Copy this code into a file called <code class="highlighter-rouge">roman.rb</code>:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">roman</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s2">"?"</span>
+<span class="k">end</span>
+
+<span class="nb">require</span> <span class="s2">"minitest/spec"</span>
+<span class="nb">require</span> <span class="s2">"minitest/autorun"</span>
+
+<span class="n">describe</span> <span class="s2">"roman"</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"converts the number 1 to the string I"</span> <span class="k">do</span>
+    <span class="n">roman</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nf">must_equal</span> <span class="s2">"I"</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p><strong>Run your tests</strong></p>
+
+<p>If you use <em>Sublime Text</em> on Linux, OSX Mavericks (or later) or Windows, you
+can run the tests by pressing <kbd>Ctrl</kbd>+<kbd>B</kbd>. Otherwise you can type the following into
+your terminal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">ruby roman.rb</code></pre></figure>
+
+<p><strong>Output</strong></p>
+
+<p>You should see the following output from the tests:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">roman#test_0001_converts the number 1 to the string I <span class="o">[</span>tdd1.rb:11]:
+Expected: <span class="s2">"I"</span>
+  Actual: <span class="s2">"?"</span>
+
+1 tests, 1 assertions, 1 failures, 0 errors, 0 skips</code></pre></figure>
+
+<p>Take a moment to read this output carefully. It is quite a mouthful.</p>
+
+<p>Your tests are now <strong>red</strong>. i.e. One or more of the tests are failing. You can
+tell you have a failing test by checking the summary at the end: <code class="highlighter-rouge">1 tests, 1
+assertions, 1 failures, 0 errors, 0 skips</code>.</p>
+
+<p><strong>Stand up</strong> and give the hot seat to the next person.</p>
+
+<p><strong>Coach:</strong> Explain how TDD can be useful.</p>
+
+<h2 id="make-the-tests-pass"><em>2.</em> Make the tests pass</h2>
+
+<p>It is time to make the test pass. Do this however you see fit. It’s fine if the
+change is just an extra <code class="highlighter-rouge">if</code> statement or one extra character. In fact, that is
+encouraged: you generally shouldn’t write unnecessary code. If you’re stuck,
+you can ask the people around you for their opinions.</p>
+
+<p>Here is a way that you could make the first test pass, just to get you into the
+swing of things:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">roman</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s2">"I"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>If this seems facetious, you’re right but it is a valid solution because it
+makes all the tests pass. When your tests all pass, we call them <strong>green</strong>.</p>
+
+<h2 id="refactor-your-code"><em>3.</em> Refactor your code</h2>
+
+<p>Look over the code and decide if it’s a good idea to <strong>refactor</strong> it (clean up
+the code and make it easier to read). If you decide to not to refactor, skip
+this step.</p>
+
+<p><strong>Hint</strong>: It’s a good time to refactor when you notice <em>repetition</em>. If you
+like, you can also refactor the tests.</p>
+
+<p>Run your tests after refactoring. If they fail, you accidentally broke
+something.</p>
+
+<p><strong>Coach:</strong> Explain how focusing on something small enough to test can be useful.</p>
+
+<h2 id="write-a-new-failing-test"><em>4.</em> Write a new failing test</h2>
+
+<p>If you all agree that the code should work in general, and you can’t think of
+any more cases to test and everything passes, you can stop here. You win!</p>
+
+<p>Otherwise, your last job in the hot seat is to write a new test. We currently have a test that checks that the number one is turned into an <code class="highlighter-rouge">"I"</code>, but we need more tests to verify that all other numbers convert as expected. When you add a new test for another number, be sure to run the tests to find your test fail. If you’re stuck, there are some suggestions at the bottom of this page.</p>
+
+<p>You can copy and paste the previous test and alter it. You can change it to be
+anything you like. Your tests should probably test the next trickiest
+situation, but if you feel like going back and adding a simpler case, that’s
+fine too as long as it fails.</p>
+
+<p>The other members of the group can chime in and ask questions or spot problems
+for you.</p>
+
+<p>Here is an example of an expanded test suite:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="s2">"roman"</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"converts the number 1 to the string I"</span> <span class="k">do</span>
+    <span class="n">roman</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nf">must_equal</span> <span class="s2">"I"</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"converts the number 2 to the string II"</span> <span class="k">do</span>
+    <span class="n">roman</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nf">must_equal</span> <span class="s2">"II"</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Your tests are now <strong>red</strong> again; at least one is failing.</p>
+
+<p><strong>Stand up</strong> and offer the hot seat to the next person in your group.</p>
+
+<h2 id="repeat">Repeat!</h2>
+
+<p>Keep repeating steps 2 through 4, making sure to continue switching at the end
+of step 4. You are done when your team feels like they are done.</p>
+
+<p>Don’t worry about finishing all cases. The goal is to practice the steps and
+learn to work together in this way. Get used to writing tests as well as
+getting them to pass. Practice. Good luck!</p>
+
+<h2 id="hints">Hints</h2>
+
+<p>If you are stuck for ideas, here is a list of Roman numerals to write tests
+for, in this order. Note the way that the build up incrementally in complexity.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Input</th>
+      <th style="text-align: left">Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">1</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"I"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">5</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"V"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">4</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"IIII"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">6</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"VI"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">7</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"VII"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">10</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"X"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If you get this far, you earn partial credit. Romans used to use <code class="highlighter-rouge">IIII</code> for 4.
+That’s why 4 on an analog watch is written as <code class="highlighter-rouge">IIII</code>. Later on, they added
+<em>subtractive</em> digits. These are harder to program. Once you feel confident that
+your program works with all the numbers above, try dealing with subtractive
+digits.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Input</th>
+      <th style="text-align: left">Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">4</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"IV"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">14</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"XIV"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">2896</code></td>
+      <td style="text-align: left"><code class="highlighter-rouge">"MMDCCCXCVI"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

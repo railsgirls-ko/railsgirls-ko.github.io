@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rails Girls App Tutorial - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="rails-girls-app-tutorial">Rails Girls App Tutorial</h1>
+
+<p><em>Created by Vesa Vänskä, <a href="https://twitter.com/vesan">@vesan</a></em></p>
+
+<p><strong>Make sure you have Rails installed.</strong> <a href="/install"><strong>Follow the installation guide</strong></a> to get set up.</p>
+
+<h2 id="get-to-know-the-tools">Get to know the tools</h2>
+
+<div class="indent">
+
+  <h3><i class="icon-text-editor">&nbsp;</i></h3>
+
+  <h3 id="text-editor">Text Editor</h3>
+
+  <ul>
+    <li><a href="https://atom.io/">Atom</a>, <a href="http://www.sublimetext.com">Sublime Text</a>,  Vim and Emacs are examples of text editors your can use for writing code and editing files.</li>
+  </ul>
+
+  <h3><i class="icon-prompt">&nbsp;</i></h3>
+
+  <h3 id="terminal-known-as-command-prompt-on-windows">Terminal (known as Command Prompt on Windows)</h3>
+
+  <ul>
+    <li>Where you start the rails server and run commands.</li>
+  </ul>
+
+  <h3><i class="icon-browser">&nbsp;</i></h3>
+
+  <h3 id="web-browser">Web browser</h3>
+
+  <ul>
+    <li>(Firefox, Safari, Chrome) for viewing your application.</li>
+  </ul>
+
+</div>
+
+<h3 id="important">Important</h3>
+
+<p>It is important that you select the instructions specific to your operating system - the commands you need to run on a Windows computer are slightly different to Mac or Linux. If you’re having trouble check the Operating System switcher at the bottom of the commands. In case you’re using a cloud service (e.g. Codenvy), you need to run the Linux commands even if you are on a Windows computer.</p>
+
+<h2 id="creating-the-application"><em>1.</em>Creating the application</h2>
+
+<p>We’re going to create a new Rails app called <em>railsgirls</em>.</p>
+
+<p>First, let’s open a terminal:</p>
+
+<ul>
+  <li>Mac OS X: Open Spotlight, type <em>Terminal</em> and click the <em>Terminal</em> application.</li>
+  <li>Windows: Click Start and look for <em>Command Prompt</em>, then click <em>Command Prompt with Ruby and Rails</em>.</li>
+  <li>Linux (Ubuntu/Fedora): Search for <em>Terminal</em> on the dash and click <em>Terminal</em>.</li>
+  <li>Cloud service (e.g. Codenvy): Log in to your account, start your project and switch to its IDE (see <a href="/install#using-a-cloud-service">installation guide</a> for details). The terminal is usually at the bottom of your browser window.</li>
+</ul>
+
+<p>Next, type these commands in the terminal:</p>
+
+<div class="os-specific">
+  <div class="nix">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">mkdir projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify that a directory named <code>projects</code> was created by running the list command: <code>ls</code>. You should see the <code>projects</code> directory in the output. Now you want to change the directory you are currently in to the <code>projects</code> folder by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify you are now in an empty directory or folder by again running the <code>ls</code> command. Now you want to create a new app called <code>railsgirls</code> by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails new railsgirls</code></pre></figure>
+
+
+    <div>
+<p>This will create a new app in the folder <code>railsgirls</code>, so we again want to change the directory to be inside of our rails app by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>railsgirls</code></pre></figure>
+
+
+    <div>
+<p>If you run <code>ls</code> inside of the directory you should see folders such as <code>app</code> and <code>config</code>. You can then start the rails server by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails server</code></pre></figure>
+
+  </div>
+
+  <div class="win">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">mkdir projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify that a directory named <code>projects</code> was created by running the list command: <code>dir</code>. You should see the <code>projects</code> directory in the output. Now you want to change the directory you are currently in to the <code>projects</code> folder by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>projects</code></pre></figure>
+
+
+    <div>
+<p>You can verify you are now in an empty directory or folder by again running the <code>dir</code> command. Now you want to create a new app called <code>railsgirls</code> by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails new railsgirls</code></pre></figure>
+
+
+    <div>
+<p>This will create a new app in the folder <code>railsgirls</code>, so we again want to change the directory to be inside of our rails app by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">cd </span>railsgirls</code></pre></figure>
+
+
+    <div>
+<p>If you run <code>dir</code> inside of the directory you should see folders such as <code>app</code> and <code>config</code>. You can then start the rails server by running:</p>
+    </div>
+
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails server</code></pre></figure>
+
+  </div>
+</div>
+
+<p>Open <a href="http://localhost:3000">http://localhost:3000</a> in your browser. If you are using a cloud service (e.g. Codenvy), use its preview functionality instead (see <a href="/install#using-a-cloud-service">installation guide</a> for details).</p>
+
+<p>You should see “Welcome aboard” page, which means that the generation of your new app worked correctly.</p>
+
+<p>Notice in this window the command prompt is not visible because you are now in the Rails server, the command prompt looks like this:</p>
+
+<div class="os-specific">
+  <div class="nix">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="err">$</span></code></pre></figure>
+
+  </div>
+  <div class="win">
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">&gt;</code></pre></figure>
+
+  </div>
+</div>
+
+<p>When the command prompt is not visible you cannot execute new commands. If you try running <code class="highlighter-rouge">cd</code> or another command it will not work. To return to the normal command prompt:</p>
+
+<p>Hit <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to quit the server.</p>
+
+<p><strong>Coach:</strong> Explain what each command does. What was generated? What does the server do?</p>
+
+<h2 id="create-idea-scaffold"><em>2.</em>Create Idea scaffold</h2>
+
+<p>We’re going to use Rails’ scaffold functionality to generate a starting point that allows us to list, add, remove, edit, and view things; in our case ideas.</p>
+
+<p><strong>Coach:</strong> What is Rails scaffolding? (Explain the command, the model name and related database table, naming conventions, attributes and types, etc.) What are migrations and why do you need them?</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails generate scaffold idea name:string description:text picture:string</code></pre></figure>
+
+<p>The scaffold creates new files in your project directory, but to get it to work properly we need to run a couple of other commands to update our database and restart the server.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rake db:migrate
+rails server</code></pre></figure>
+
+<p>Open <a href="http://localhost:3000/ideas">http://localhost:3000/ideas</a> in your browser. Cloud service (e.g. Codenvy) users need to append ‘/ideas’ to their preview url instead (see <a href="/install#using-a-cloud-service">installation guide</a>).</p>
+
+<p>Click around and test what you got by running these few command-line commands.</p>
+
+<h2 id="design"><em>3.</em>Design</h2>
+
+<p><strong>Coach:</strong> Talk about the relationship between HTML and Rails. What part of views is HTML and what is Embedded Ruby (ERB)? What is MVC and how does this relate to it? (Models and controllers are responsible for generating the HTML views.)</p>
+
+<p>The app doesn’t look very nice yet. Let’s do something about that. We’ll use the Twitter Bootstrap project to give us nicer styling really easily.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/layouts/application.html.erb</code> in your text editor and above the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media: </span><span class="s1">'all'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>and replace</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>with</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<p>Let’s also add a navigation bar and footer to the layout. In the same file, under <code class="highlighter-rouge">&lt;body&gt;</code> add</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navbar navbar-default navbar-fixed-top"</span> <span class="na">role=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-header"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">class=</span><span class="s">"navbar-toggle"</span> <span class="na">data-toggle=</span><span class="s">"collapse"</span> <span class="na">data-target=</span><span class="s">".navbar-collapse"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"sr-only"</span><span class="nt">&gt;</span>Toggle navigation<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"navbar-brand"</span> <span class="na">href=</span><span class="s">"/"</span><span class="nt">&gt;</span>The Idea app<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collapse navbar-collapse"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav navbar-nav"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/ideas"</span><span class="nt">&gt;</span>Ideas<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/nav&gt;</span></code></pre></figure>
+
+<p>and before <code class="highlighter-rouge">&lt;/body&gt;</code> add</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;footer&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    Rails Girls 2016
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/footer&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js"</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></figure>
+
+<p>Now let’s also change the styling of the ideas table. Open <code class="highlighter-rouge">app/assets/stylesheets/application.css</code> and at the bottom add</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span> <span class="nl">padding-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">footer</span> <span class="p">{</span> <span class="nl">margin-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">table</span><span class="o">,</span> <span class="nt">td</span><span class="o">,</span> <span class="nt">th</span> <span class="p">{</span> <span class="nl">vertical-align</span><span class="p">:</span> <span class="nb">middle</span><span class="p">;</span> <span class="nl">border</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">th</span> <span class="p">{</span> <span class="nl">border-bottom</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#DDD</span><span class="p">;</span> <span class="p">}</span></code></pre></figure>
+
+<p>Now make sure you saved your files and refresh the browser to see what was changed. You can also change the HTML &amp; CSS further.</p>
+
+<p>In case your Terminal shows you an error message that <em>sort of</em> implies there is something wrong with your JavaScript or CoffeeScript, install <a href="http://nodejs.org/download/">nodejs</a>. This issue should not appear when you’ve used the RailsInstaller (but when you’ve installed Rails via <code class="highlighter-rouge">gem install rails</code>).</p>
+
+<p><strong>Coach:</strong> Talk a little about CSS and layouts.</p>
+
+<h2 id="adding-picture-uploads"><em>4.</em>Adding picture uploads</h2>
+
+<p>We need to install a piece of software to let us upload files in Rails.</p>
+
+<p>Open <code class="highlighter-rouge">Gemfile</code> in the project directory using your text editor and under the line</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'sqlite3'</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'carrierwave'</span></code></pre></figure>
+
+<p><strong>Coach:</strong> Explain what libraries are and why they are useful. Describe what open source software is.</p>
+
+<p>Hit <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to quit the server.</p>
+
+<p>In the terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle</code></pre></figure>
+
+<p>Now we can generate the code for handling uploads. In the terminal run:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails generate uploader Picture</code></pre></figure>
+
+<p>Please start the rails server now.</p>
+
+<p>Note: Some people might be using a second terminal to run the rails server continuously.
+If so you need to <strong>restart the Rails server process</strong> now.
+This is needed for the app to load the added library.</p>
+
+<p>Open <code class="highlighter-rouge">app/models/idea.rb</code> and under the line</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Idea</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span></code></pre></figure>
+
+<p>add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">mount_uploader</span> <span class="ss">:picture</span><span class="p">,</span> <span class="no">PictureUploader</span></code></pre></figure>
+
+<p>Open <code class="highlighter-rouge">app/views/ideas/_form.html.erb</code> and change</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">file_field</span> <span class="ss">:picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Sometimes, you might get an <em>TypeError: can’t cast ActionDispatch::Http::UploadedFile to string</em>.</p>
+
+<p>If this happens, in file <code class="highlighter-rouge">app/views/ideas/_form.html.erb</code> change the line</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="n">idea</span><span class="p">,</span> <span class="ss">html: </span><span class="p">{</span><span class="ss">multipart: </span><span class="kp">true</span><span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>In your browser, add new idea with a picture. When you upload a picture it doesn’t look nice because it only shows a path to the file, so let’s fix that.</p>
+
+<p>Open <code class="highlighter-rouge">app/views/ideas/show.html.erb</code> and change</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="vi">@idea</span><span class="p">.</span><span class="nf">picture</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">image_tag</span><span class="p">(</span><span class="vi">@idea</span><span class="p">.</span><span class="nf">picture_url</span><span class="p">,</span> <span class="ss">width: </span><span class="mi">600</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@idea</span><span class="p">.</span><span class="nf">picture</span><span class="p">.</span><span class="nf">present?</span> <span class="cp">%&gt;</span></code></pre></figure>
+
+<p>Now refresh your browser to see what changed.</p>
+
+<p><strong>Coach:</strong> Talk a little about HTML.</p>
+
+<h2 id="finetune-the-routes"><em>5.</em>Finetune the routes</h2>
+
+<p>Open <a href="http://localhost:3000">http://localhost:3000</a> (or your preview url, if you are using a cloud service). It still shows the “Welcome aboard” page. Let’s make it redirect to the ideas page.</p>
+
+<p>Open <code class="highlighter-rouge">config/routes.rb</code> and after the first line add</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">root</span> <span class="ss">to: </span><span class="n">redirect</span><span class="p">(</span><span class="s1">'/ideas'</span><span class="p">)</span></code></pre></figure>
+
+<p>Test the change by opening the root path (that is, <a href="http://localhost:3000/">http://localhost:3000/</a> or your preview url) in your browser.</p>
+
+<p><strong>Coach:</strong> Talk about routes, and include details on the order of routes and their relation to static files.</p>
+
+<h2 id="create-static-page-in-your-app">Create static page in your app</h2>
+
+<p>Lets add a static page to our app that will hold information about the author of this application — you!</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails generate controller pages info</code></pre></figure>
+
+<p>This command will create you a new folder under <code class="highlighter-rouge">app/views</code> called <code class="highlighter-rouge">/pages</code> and under that a file called <code class="highlighter-rouge">info.html.erb</code> which will be your info page.</p>
+
+<p>It also adds a new simple route to your routes.rb.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s2">"pages/info"</span></code></pre></figure>
+
+<p>Now you can open the file <code class="highlighter-rouge">app/views/pages/info.html.erb</code> and add information about you in HTML. To see your new info page, take your browser to <a href="http://localhost:3000/pages/info">http://localhost:3000/pages/info</a> or, if you are a cloud service user, append ‘/pages/info’ to your preview url.</p>
+
+<h2 id="what-next"><em>6+.</em>What next?</h2>
+
+<ul>
+  <li>Add design using HTML &amp; CSS</li>
+  <li>Add ratings</li>
+  <li>Use CoffeeScript (or JavaScript) to add interaction</li>
+  <li>Add picture resizing to make loading the pictures faster</li>
+</ul>
+
+<h2 id="additional-guides">Additional Guides</h2>
+
+<ul>
+  <li>Guide 0: <a href="http://www.pragtob.info/rails-beginner-cheatsheet/">Handy cheatsheet for Ruby, Rails, console etc.</a></li>
+  <li>Guide 1: <a href="/commenting">Add commenting by Janika Liiv</a></li>
+  <li>Guide 2: <a href="/heroku">Put your app online with Heroku by Terence Lee</a> / <a href="/openshift">Put your app online with OpenShift by Katie Miller</a> / <a href="/anynines">Put your app online with anynines</a> / <a href="/trucker">Put your app online with Trucker.io</a></li>
+  <li>Guide 3: <a href="/thumbnails">Create thumbnail images for the uploads by Miha Filej</a></li>
+  <li>Guide 4: <a href="/design">Add design using HTML &amp; CSS by Alex Liao</a></li>
+  <li>Guide 5: <a href="/devise">Add Authentication (user accounts) with Devise by Piotr Steininger</a></li>
+  <li>Guide 6: <a href="/gravatar">Adding profile pictures with Gravatar</a></li>
+  <li>Guide 7: <a href="/testing-rspec">Test your app with RSpec</a></li>
+  <li>Guide 8: <a href="/continuous-travis">Continuous Deployment with Travis-CI</a> / <a href="/continuous">Continuous Deployment with Codeship</a> / <a href="/continuous-snap-ci">Continuous Deployment with Snap CI</a></li>
+  <li>Guide 9: <a href="https://github.com/lbain/railsgirls">Go through additional explanations for the App by Lucy Bain</a></li>
+  <li>Guide 10: <a href="/backend-with-active-admin">Adding a back-end with Active Admin</a></li>
+</ul>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

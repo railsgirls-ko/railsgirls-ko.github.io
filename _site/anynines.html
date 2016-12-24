@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rails Girls on anynines - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="put-your-app-online-with-anynines">Put your app online with anynines</h1>
+
+<p><em>Created by Floor Drees, <a href="https://twitter.com/floordrees">@floordrees</a></em></p>
+
+<p><strong>COACH</strong>: Talk about the benefits of deploying to anynines vs utilising US data centers.</p>
+
+<h3 id="get-yourself-some-anynines">Get yourself some anynines</h3>
+
+<ol>
+  <li>
+    <p><a href="http://anynines.com/">Create an anynines account</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://anynines.zendesk.com/entries/60241846-How-to-install-the-CLI-v6">Download and install the Command Line Interface</a> to interact with anynines.</p>
+  </li>
+  <li>
+    <p>Now select the anynines api endpoint as target and authenticate using your user credentials:</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">cf api https://api.de.a9s.eu  
+cf login -u <span class="o">[</span>your@email] -p <span class="o">[</span>yourpassword]  </code></pre></figure>
+
+<p>Or if that doesn’t work for you, use:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">cf login</code></pre></figure>
+
+<p>… which will prompt you for your email address and password.</p>
+
+<p>Wonder what that <code class="highlighter-rouge">cf</code> stands for? It’s short for <a href="http://www.cloudfoundry.com/">Cloud Foundry</a>, a system anynines is using behind the scenes.</p>
+
+<h3 id="push-your-app-online">Push your app online</h3>
+
+<p>Let’s push this source code from your local machine to anynines:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$&gt; </span>cf push <span class="o">[</span>application-name-of-your-choosing]</code></pre></figure>
+
+<p>This will fail miserably since the example application needs a MySQL database to start. So, lets create one! The command below will create a MySQl service with a free service plan. After the plan name you have to specify a name for the service instance. This name will be used for further commands to refer to this service instance:</p>
+
+<p>$&gt; cf create-service mysql Pluto-free [service-name-you-can-choose]</p>
+
+<p>(Really, you can use any name. Make it count!)</p>
+
+<p>Next, binding the MySQL service instance to the application, to grant the application access to the MySQL instance, type:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$&gt; </span>cf <span class="nb">bind</span>-service <span class="o">[</span>app-name-you-have-chosen-above] <span class="o">[</span>service-name-you-have-chosen-above]</code></pre></figure>
+
+<p>Finally we have to restart the application to make sure the service binding takes effect:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$&gt; </span>cf restart <span class="o">[</span>app-name-you-have-chosen-above]</code></pre></figure>
+
+<p>You will see this:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">Creating service postgresql-d2197... OK  
+Binding postgresql-d2197 to railsgirls... OK  </code></pre></figure>
+
+<p>Ending with… <code class="highlighter-rouge">Push successful! App 'railsgirls' available at railsgirls.de.a9sapp.eu</code>. Score!</p>
+
+<h3 id="version-control">Version Control</h3>
+
+<p>We need to add our new code to version control. You can do this by running the following in the terminal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git status
+git add .
+git commit -m <span class="s2">"add anynines deployment"</span></code></pre></figure>
+
+<p><strong>COACH</strong>: This would be a great time to talk about version control systems and git, if you haven’t already.</p>
+
+<h3 id="help">Help</h3>
+
+<p>You can check all available cf sub-commands by typing <code class="highlighter-rouge">cf help</code>.
+In case your terminal does not have all the answers, the anynines team probably does. Just shoot them a mail at support@anynines.com.</p>
+
+<p>Happy deploying!</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

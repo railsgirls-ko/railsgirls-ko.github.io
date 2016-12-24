@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Alternative development environment with VirtualBox - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="introduction">Introduction</h1>
+
+<p>A development environment is the sum of all applications and tools with which a developer can do her daily work. Beyond an internet browser and a code editor all programs are included which are necessary for running and serving our application. For Ruby on Rails development, we certainly need Ruby, and the Rails framework and we also need a database, a web application server, etc.
+By default an experienced developer would install all of these tools to her environment, but it’s an advanced task. Moreover you are working on different operating systems, most of you are working on Windows, where installing a proper Ruby development environment is a huge problem.</p>
+
+<p>Considering the things above, we created a virtual development environment for the first Rails Girls Budapest event, hoping that we can ease every participant’s job.</p>
+
+<!-- more -->
+
+<h2 id="virtual-machine">Virtual Machine</h2>
+
+<p>A <a href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine (VM)</a> is a software-based emulation of a computer.</p>
+
+<h3 id="limitations">Limitations</h3>
+
+<p>Virtualizing another operating system needs some power from your computer. We do not recommend virtualization if you do not own a computer with more than one CPU cores, and at least 2GB of memory.</p>
+
+<h1 id="installing-the-development-environment">Installing the development environment</h1>
+
+<h2 id="virtual-environment">Virtual environment</h2>
+
+<p>We created a virtual machine for you, with all the needed programs/tools preinstalled. For those who are interested in the parameters: it’s a 32 bit Ubuntu 12.04, without any window-manager (you won’t need it at all). With this solution, everyone could write the code in her usual environment, can use her favourite browser, the virtual machine is only needed when you want to run Rails commands in the console. You’ll be able to do that in the browser as well, as discussed later.</p>
+
+<h3 id="virtualbox">VirtualBox</h3>
+
+<p>VirtualBox is Oracle’s virtualization platform, which can be downloaded on all the supported operating system (Win, OS X, Linux). Let’s download the installer from <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a>, and install it after.</p>
+
+<h3 id="rails-girls-virtual-machine">Rails Girls virtual machine</h3>
+
+<p>Please download the virtal machine created for this event from <a href="http://www.digitalnatives.hu/demos/railsgirls/railsgirls_virtualbox_vm.zip">here</a>. After downloading, please unzip the file, and put it’s contents to a folder.
+Let’s open the already install VirtualBox application. Please find Machine/Add in the menu. Browse the previously created folder containing our VM, and select the file with <em>vbox</em> extension.
+If you did everything right, a new VM appeared on the left sidebar with the name <em>RailsGirls</em>. So we can start it for the first time!</p>
+
+<p><img src="/images/virtualbox.png" alt="Virtualbox / Starting VM" /></p>
+
+<h4 id="starting">Starting</h4>
+
+<p>Select the virtual machine, and press the <em>start</em> button! If everything is running smooth, a black window should appear, in which after 10-60 seconds the label <code class="highlighter-rouge">precise32 login:</code> can be read. This means, that our VM is up and running! We won’t need this window later on, but don’t close/shutdown it, as it has to run while we are coding!</p>
+
+<h4 id="shutting-down">Shutting down</h4>
+
+<p>If you don’t need the VM any more, you can shut it down. To achieve this, close the window described above, and select <em>Shut down</em> from the available options. After shutting it down, the VM won’t use any resources on the computer, but only some disk space.</p>
+
+<h4 id="disappearing-mouse">Disappearing mouse</h4>
+
+<p>If we click into this VirtualBox window, it catches our mouse, and it disappears without notice. You can get your mouse back: in the window’s bottom right corner you can see the key combination what you have to press (on OS X it’s left-cmd, on any other platforms is right-ctrl).</p>
+
+<h3 id="usage">Usage</h3>
+
+<p>Now as our VM is up and running, let login to it. We could log in from the VirtualBox window described above, but using it would not be comfortable (it’s not recognizing our keyboard’s layout, copy-paste wouldn’t work., etc.). We could also log in remotely (with a so-called SSH connection), but Windows doesn’t have an SSH-client preinstalled, and installing one is a cumbersome.
+Because of this, you can log in to the VM with a browser. Open your favourite browser (Chrome :) ), and type in <a href="http://localhost:57575">http://localhost:57575</a> as a URL.
+If we did everything right, we should see a butterfly:</p>
+
+<p><img src="/images/butterfly_login.png" alt="Butterfly / Console in your browser" /></p>
+
+<p>We are going to refer to this tab in your browser as a console, you’ll have to type on all commands destined to Rails here.</p>
+
+<h4 id="pasting-text">Pasting text</h4>
+
+<p>On Linux and Windows you won’t be able to paste any copied code with the ordinary <kbd>Ctrl</kbd>+<kbd>V</kbd> combination. Please use shift-insert instead, it should work.</p>
+
+<h3 id="login">Login</h3>
+
+<p>Let’s log in to the VM with the following credentials (BE AWARE, you won’t see any changes while you’re typing in the password, it’s totally normal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">login: vagrant
+password: vagrant</code></pre></figure>
+
+<p>After a successful login, you shold see the following label:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">vagrant@precise32:~<span class="err">$</span></code></pre></figure>
+
+<p>IMPORTANT: whenever we logged in to the VM, don’t forget to type in the following command afterwards: <code class="highlighter-rouge">/bin/bash --login</code>!!!</p>
+
+<h3 id="shared-directory">Shared directory</h3>
+
+<p>The hard part is over, your development environment is nearly ready. Only one thing left: we have to share a folder, which can be reached from our normal operating system and our VM, since we are going to code in the former, but we are going to run the code in the latter.</p>
+
+<p>Let’s create a new folder called <em>railsgirls</em> on our machine (under our user’s home folder). Let’s shut down the VM as we described above. After the shutdown, select the VM in VirtualBox, and press <em>Settings</em>. Click on Shared Folders tab, and click on the little + icon on the right.
+In the appearing little window browse the created <em>railsgirls</em> forlder as a Folder Path. Give <em>railsgirls</em> as foldername and also select the option <em>Auto Mount</em> (all other options should be deselected).
+Start the VM again, and log into it with the known process:</p>
+
+<ul>
+  <li>open <a href="http://localhost:57575">http://localhost:57575</a></li>
+  <li>log in with vagrant / vagrant</li>
+  <li>don’t forget to run <code class="highlighter-rouge">/bin/bash --login</code></li>
+</ul>
+
+<h4 id="system-check">System check</h4>
+
+<p>The shared folder can be found at the path <em>/media/sf_railsgirls</em>. Let’s check if everything works as expected. Please enter to this directory:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span><span class="nb">cd</span> /media/sf_railsgirls</code></pre></figure>
+
+<p>Let’s create an empty file:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>touch test.txt</code></pre></figure>
+
+<p>Now let’s check in our own operation system, if the shared folder contains a file called *test.txt. If so, we are ready with our virtual environment.</p>
+
+<h2 id="editor">Editor</h2>
+
+<p>The code editor is a really clever text editor, in which we are going to write our application’s codebase. We really love Sublime Text Editor, you can download if from <a href="http://www.sublimetext.com/3">http://www.sublimetext.com/3</a>.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

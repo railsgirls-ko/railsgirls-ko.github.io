@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rails Girls on Heroku - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="put-your-app-online-with-heroku">Put Your App Online With Heroku</h1>
+
+<p><em>Created by Terence Lee, <a href="https://twitter.com/hone02">@hone02</a></em></p>
+
+<h3 id="get-heroku">Get Heroku</h3>
+
+<p>Follow steps “Introduction” and “Set up” of the
+<a href="https://devcenter.heroku.com/articles/getting-started-with-ruby#introduction">Getting Started on Heroku with Ruby</a> to sign up, install the
+Heroku CLI, and login.</p>
+
+<p><strong>COACH</strong>: Talk about the benefits of deploying to Heroku vs traditional servers.</p>
+
+<h3 id="preparing-your-app">Preparing your app</h3>
+
+<h4 id="version-control-systems">Version Control Systems</h4>
+
+<p>We need to add our code to version control. You can do this by running the
+following in the terminal:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git init
+git add .
+git commit -m <span class="s2">"initial commit"</span></code></pre></figure>
+
+<p><strong>COACH</strong>: This would be a good time to talk about version control systems and git.</p>
+
+<h4 id="updating-our-database">Updating our database</h4>
+
+<p>First, we need to get our database to work on Heroku, which uses a different
+database. Please change the following in the Gemfile:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'sqlite3'</span></code></pre></figure>
+
+<p>to</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'sqlite3'</span>
+<span class="k">end</span>
+<span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'pg'</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Run <code class="highlighter-rouge">bundle install --without production</code> to setup your dependencies.</p>
+
+<p>Don’t forget to do <code class="highlighter-rouge">git add .</code> and <code class="highlighter-rouge">git commit -m "Use postgres as production database"</code>
+in order to add this change to your master branch before pushing to heroku later.</p>
+
+<p><strong>COACH</strong>: You can talk about RDBMS and the different ones out there, plus
+include some details on Heroku’s dependency on PostgreSQL.</p>
+
+<h3 id="deploying-your-app">Deploying your app</h3>
+
+<h4 id="app-creation">App creation</h4>
+
+<p>We need to create our Heroku app by typing <code class="highlighter-rouge">heroku create</code> in the terminal and
+see something like this:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">Creating app... <span class="k">done</span>, ⬢ young-reaches-87845
+https://young-reaches-87845.herokuapp.com/ | https://git.heroku.com/young-reaches-87845.git</code></pre></figure>
+
+<p>In this case “young-reaches-87845” is your app name.</p>
+
+<h4 id="pushing-the-code">Pushing the code</h4>
+
+<p>Next we need to push our code to heroku by typing <code class="highlighter-rouge">git push heroku master</code>.
+You’ll see push output like the following:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">Counting objects: 115, <span class="k">done</span>.
+Delta compression using up to 8 threads.
+Compressing objects: 100% <span class="o">(</span>97/97<span class="o">)</span>, <span class="k">done</span>.
+Writing objects: 100% <span class="o">(</span>115/115<span class="o">)</span>, 25.62 KiB | 0 bytes/s, <span class="k">done</span>.
+Total 115 <span class="o">(</span>delta 10<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
+remote: Compressing <span class="nb">source </span>files... <span class="k">done</span>.
+remote: Building <span class="nb">source</span>:
+remote:
+remote: -----&gt; Ruby app detected
+remote: -----&gt; Compiling Ruby/Rails
+remote: -----&gt; Using Ruby version: ruby-2.2.4
+remote: -----&gt; Installing dependencies using bundler 1.11.2
+remote:        Running: bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+remote:        Fetching gem metadata from https://rubygems.org/..........
+remote:        Fetching version metadata from https://rubygems.org/...
+remote:        Fetching dependency metadata from https://rubygems.org/..
+remote:        Installing concurrent-ruby 1.0.2
+...
+remote: -----&gt; Launching...
+remote:        Released v5
+remote:        https://young-reaches-87845.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... <span class="k">done</span>.
+To https://git.heroku.com/young-reaches-87845.git
+ <span class="k">*</span> <span class="o">[</span>new branch]      master -&gt; master</code></pre></figure>
+
+<p>You’ll know the app is done being pushed, when you see the “Launching…” text like above.</p>
+
+<h4 id="migrate-database">Migrate database</h4>
+
+<p>Next we need to migrate our database like we did locally during the workshop:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">heroku run rake db:migrate</code></pre></figure>
+
+<p>When that command is finished being run, you can hit the app based on the url.
+For this example app, you can go to <a href="https://young-reaches-87845.herokuapp.com/">https://young-reaches-87845.herokuapp.com/</a>.
+You can also type <code class="highlighter-rouge">heroku open</code> in the terminal to visit the page.</p>
+
+<h4 id="closing-notes">Closing notes</h4>
+
+<p>Heroku’s platform is not without its quirks. Applications run on Heroku live
+within an ephermeral environment — this means that (except for information
+stored in your database) any files created by your application will disappear
+if it restarts (for example, when you push a new version).</p>
+
+<h6 id="ephemeral-filesystemephemeral-filesystem"><a href="https://devcenter.heroku.com/articles/dynos#ephemeral-filesystem">Ephemeral filesystem</a></h6>
+
+<blockquote>
+  <p>Each dyno gets its own ephemeral filesystem, with a fresh copy of the most
+recently deployed code. During the dyno’s lifetime its running processes can
+use the filesystem as a temporary scratchpad, but no files that are written
+are visible to processes in any other dyno and any files written will be
+discarded the moment the dyno is stopped or restarted. For example, this
+occurs any time a dyno is replaced due to application deployment and
+approximately once a day as part of normal dyno management.</p>
+</blockquote>
+
+<p>In the <a href="/app">App</a> tutorial the ability to attach a file to the Idea record is
+added, which results in new files being written to your applications
+<code class="highlighter-rouge">public/uploads</code> folder. The ephemeral storage in Heroku can be seen with the
+following steps:</p>
+
+<ol>
+  <li>Launch the app with <code class="highlighter-rouge">heroku open</code></li>
+  <li>Add a new Idea with an image</li>
+  <li>Restart the application by running <code class="highlighter-rouge">heroku restart</code></li>
+  <li>Go back to your Idea and reload the page - the image should no longer be visible</li>
+</ol>
+
+<h5 id="working-around-ephemeral-storage">Working around Ephemeral Storage</h5>
+
+<p>Obviously this doesn’t seem to be useful if you were running a real life
+application, but there are ways to work around this which is commonly used by
+a lot of popular websites.</p>
+
+<p>The most common method is to use an external asset host such as Amazon S3 (Simple
+Storage Service) or Rackspace CloudFiles. These services provide (for a low cost
+- usually less then $0.10 per GB) storage ‘in the cloud’ (meaning the files
+could potentially be hosted anywhere) which your application can use as persistent storage.</p>
+
+<p>While this functionality is a bit out of scope for this tutorial there are some
+resources available which you can use to find your way:</p>
+
+<ul>
+  <li><a href="https://github.com/carrierwaveuploader/carrierwave/wiki/How-to%3A-Make-Carrierwave-work-on-Heroku">How to: Make Carrierwave work on Heroku</a></li>
+  <li><a href="http://www.hongkiat.com/blog/amazon-s3-the-beginners-guide/">Amazon S3 – The Beginner’s Guide</a></li>
+</ul>
+
+<p>As always if you require any more information or assistance your coaches will be able to assist.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>

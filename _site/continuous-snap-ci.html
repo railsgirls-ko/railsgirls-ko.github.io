@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Continuous Deployment - cuz less hassle - Rails Girls</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/guides.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/css/code.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a class="span3" href="/" id="logo">
+          <img alt="Rails Girls Guides" src="/images/railsgirls-guides.png" />
+        </a>
+        <nav></nav>
+      </div>
+    </header>
+    <article class="container">
+      <div class="span10">
+        <h1 id="continuous-deployment-with-the-snap-ci">Continuous Deployment with the Snap CI</h1>
+
+<p><em>Created by Akshay Karle, <a href="https://twitter.com/akshay_karle">@akshay_karle</a></em></p>
+
+<h3 id="what-is-this-continuous-deployment-thing">What is this Continuous Deployment thing?</h3>
+
+<p>Continuous deployment is part of the continuous delivery ‘movement’. The idea behind continuous delivery is to automate the software delivery process as far as possible.</p>
+
+<p>With a working continuous deployment chain in place you’ll enforce Git deployments (everything must be committed to be tested and everything must be tested to be deployed), making collaboration easier and deployment faster. So you can focus on making your app even more awesome!</p>
+
+<p>There are a few great companies sailing the continuous wave, in this guide we’ll set up continuous deployment for our Ruby on Rails app from GitHub to Heroku, using the <a href="https://snap-ci.com">Snap CI</a>.</p>
+
+<p><strong>COACH</strong>: Talk about the benefits of continuous deployment.</p>
+
+<h3 id="sign-up-for-snap-ci">Sign up for Snap CI</h3>
+
+<p>First, you need <a href="https://snap-ci.com/">a Snap CI account</a>. Sign in to the Snap CI with GitHub. Snap CI needs access to your GitHub repositories to be able to set them up, so make sure you allow access.</p>
+
+<p>Back at the Snap CI, let’s create your first pipeline. The first step is to select GitHub as your repository provider. In the list of your GitHub repositories, search for the repository you want to set up and select it. In our case, that’s the one called something like “railsgirls”.</p>
+
+<p>Once you select the repository you wish to build, Snap CI will perform detections on your repository and makes a best attempt to automatically setup your <a href="http://martinfowler.com/bliki/DeploymentPipeline.html">deployment pipeline</a> for you which will allow you to run your tests and deployments.</p>
+
+<p>After a few seconds, Snap CI will automatically start building your repository, at this point you can click through the stages setup by Snap to see what they commands they run.</p>
+
+<p>Sometimes, however, Snap CI may not be able to detect the right commands to build and test your repository. In such cases you can edit your pipeline configuration by visiting the Configuration page from the Builds page of your newly created pipeline and clicking ‘Edit’ to edit the pipeline. Now you can add or edit an existing stage which will build and run all the tests for your application.</p>
+
+<p>If you feel unsure what stages you should be adding, you can have a look at the different Build recipes provided under the Ruby sub-category when adding a stage to figure out what commands should be run to correctly build and test your application. You can also take a look at the <a href="https://docs.snap-ci.com/getting-started/">getting started guide</a> in the Snap CI documentation.</p>
+
+<p>Once you’ve finished editing your pipeline configuration click ‘Save’. This will save your configuration and automatically trigger a new build. You should now have a green build if all your tests pass of course :)</p>
+
+<p>In case you have any test failures however, you can fix those and push the changes to GitHub:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git add .
+git commit -m <span class="s2">"fix tests"</span>
+git push origin master</code></pre></figure>
+
+<p>Snap CI will automatically detect the changes from GitHub and run a new instance of the pipeline. At this point you’ve already started testing your code.</p>
+
+<h3 id="setup-continuous-deployment">Setup Continuous Deployment</h3>
+
+<p>The next step is to deploy your application. There are various platforms to deploy to, for now, let’s look at how you can deploy to <a href="https://www.heroku.com/">Heroku</a> as it is the easiest.</p>
+
+<p>Go to your pipeline configuration edit page again and add a new Stage. This time Select the ‘Deploy’ category from the recipes on the left. The select ‘Basic’ recipe in the Heroku sub-category.</p>
+
+<p>Enter a stage name of your choice (eg: deploy, go-live, etc.), keep the trigger automatic and then click ‘Run as’ dropdown to Sign into Heroku. Perform the sign in and authorise Snap CI. You should automatically comeback to Snap CI after the authorization. You can now select the Heroku application where you wish to deploy or create a new application from Snap CI itself. Check the ‘Perform DB migrate’ checkbox and save your configuration.</p>
+
+<p>This should trigger another new build in Snap CI, but this time it runs the stage you just created which deploys to Heroku. Once the pipeline goes green, visit the Heroku application page where you deployed from Snap CI and your rails application should be online in a few minutes.</p>
+
+<p>From here on, any new changes you make and push to your GitHub will be tested and deployed automatically by Snap CI.</p>
+
+      </div>
+    </article>
+    <footer>
+      <p>
+        This work is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>
+      </p>
+      <p>
+        <a href="http://railsgirls.com">Rails Girls</a>
+        &middot; Crafted with excitement from Helsinki, Finland &middot; Follow us on
+        <a href="http://twitter.com/railsgirls">Twitter</a>
+        and
+        <a href="https://www.facebook.com/railsgirls">Facebook</a>
+      </p>
+    </footer>
+    <script type="text/javascript">
+      //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-19631067-3"]);
+        _gaq.push(["_trackPageview"]);
+
+        (function() {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>
